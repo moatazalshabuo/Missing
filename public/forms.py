@@ -22,8 +22,8 @@ class CustomUserCreationForm(UserCreationForm):
     first_name = forms.CharField(required=True, widget=forms.TextInput(attrs={'class': 'form-control'}))
     last_name = forms.CharField(required=True, widget=forms.TextInput(attrs={'class': 'form-control'}))
     email = forms.EmailField(required=True, widget=forms.EmailInput(attrs={'class': 'form-control'}))
-    latitude = forms.FloatField(widget=forms.HiddenInput(), required=False)
-    longitude = forms.FloatField(widget=forms.HiddenInput(), required=False)
+    latitude = forms.FloatField(widget=forms.HiddenInput(), required=True)
+    longitude = forms.FloatField(widget=forms.HiddenInput(), required=True)
 
     class Meta:
         model = User
