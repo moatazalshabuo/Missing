@@ -34,7 +34,10 @@ class MissingPerson(models.Model):
     health_conditions = models.TextField(blank=True, null=True, verbose_name="الحالة الصحية")  
     last_seen_clothing = models.TextField(blank=True, null=True, verbose_name="الملابس عند الاختفاء")
     photo = models.ImageField(upload_to='photos/', blank=True, null=True, verbose_name="صورة حديثة")
-    status = models.CharField(max_length=10,choices=Status_CHOICES,default=0)
+    status = models.CharField(max_length=10,choices=(('0', 'في انتظار'),
+        ('1', 'مفقود'),
+        ('2', 'تم العثور'),
+        ('3', 'رفض')),default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
