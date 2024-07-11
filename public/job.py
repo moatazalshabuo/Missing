@@ -6,6 +6,13 @@ from django.utils import timezone
 from django.template.loader import render_to_string
 
 def my_scheduled_job():
+  send_mail(
+                   'تنبيه بمفقود',
+                   '',
+                    'info@missing.desert-technology.com.ly',
+                    ['king.rab99@gmail.com'],
+                    
+                )
   from public.models import MissingPerson,sendingEmail,User
   missingperson = MissingPerson.objects.filter(status = 1)
   current_time = timezone.now()
