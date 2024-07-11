@@ -15,8 +15,8 @@ class MissingPerson(models.Model):
     '2':'تم العثور',
     '3':'رفض'
     }
-    first_name = models.CharField(max_length=50, verbose_name="الاسم الأول")
-    last_name = models.CharField(max_length=50, verbose_name="اسم العائلة")
+    first_name = models.CharField(max_length=255, verbose_name="الاسم الأول")
+    last_name = models.CharField(max_length=255, verbose_name="اسم العائلة")
     birth_date = models.DateField(verbose_name="تاريخ الميلاد")
     gender = models.CharField(max_length=1, choices=[
         ('M', 'ذكر'),
@@ -24,8 +24,8 @@ class MissingPerson(models.Model):
     ], verbose_name="الجنس")
     height = models.DecimalField(max_digits=5, decimal_places=2, verbose_name="الطول")
     weight = models.DecimalField(max_digits=5, decimal_places=2, verbose_name="الوزن")
-    hair_color = models.CharField(max_length=50, verbose_name="لون الشعر")
-    eye_color = models.CharField(max_length=50, verbose_name="لون العينين")
+    hair_color = models.CharField(max_length=255, verbose_name="لون الشعر")
+    eye_color = models.CharField(max_length=255, verbose_name="لون العينين")
     distinguishing_marks = models.TextField(blank=True, null=True, verbose_name="علامات مميزة")
     last_seen_date = models.DateTimeField(verbose_name="تاريخ آخر مرة شوهد فيها")
     Region = models.CharField(max_length=30,blank=True, null=True)
@@ -34,7 +34,7 @@ class MissingPerson(models.Model):
     health_conditions = models.TextField(blank=True, null=True, verbose_name="الحالة الصحية")  
     last_seen_clothing = models.TextField(blank=True, null=True, verbose_name="الملابس عند الاختفاء")
     photo = models.ImageField(upload_to='photos/', blank=True, null=True, verbose_name="صورة حديثة")
-    status = models.CharField(max_length=10,choices=(('0', 'في انتظار'),
+    status = models.CharField(max_length=255,choices=(('0', 'في انتظار'),
         ('1', 'مفقود'),
         ('2', 'تم العثور'),
         ('3', 'رفض')),default=0)
