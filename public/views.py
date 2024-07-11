@@ -178,14 +178,14 @@ def approve_person(request, person_id):
     person = get_object_or_404(MissingPerson, id=person_id)
     person.status = 1  # تم العثور
     person.save()
-    return redirect('dash.missing_persons.wait')
+    return redirect('/dash/missing_persons/wait')
 @login_required(login_url='/login')
 def reject_person(request, person_id):
     check_if_staff(request)
     person = get_object_or_404(MissingPerson, id=person_id)
     person.status = 3  # في انتظار
     person.save()
-    return redirect('dash.missing_persons.wait')
+    return redirect('/dash/missing_persons/wait')
 
 @login_required(login_url='/login')
 def missing_person_detail(request, person_id):
