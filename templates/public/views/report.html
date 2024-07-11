@@ -1,0 +1,83 @@
+{% extends "public/base.html" %}
+
+{% block style %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+crossorigin=""/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+crossorigin=""></script>
+<style>
+    header{
+        top:0px
+    }
+</style>
+{% endblock style %}
+
+{% block content %}
+<div id="clients" class="the-clients">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="section-heading w-75 mx-auto">
+            <h4>اضافة معلومات <em>حول</em> المفقود</h4>
+            <img src="assets/images/heading-line-dec.png" alt="">
+            <p>
+                في حال لديك معلومات تفيد في العثور على المفقود 
+            </p>
+          </div>
+        </div>
+                
+                <div class="col-lg-7">
+                    <form action="" method="post" class="mb-4">
+                        {% csrf_token %}
+                        <div class="row">
+                            {{ form }}
+                        </div>
+                        <input type="hidden" name="lat" id='lat'>
+                        <input type="hidden" name="lng" id='lng'>
+                        
+                        <button class="w-100 btn btn-primary  py-3" style=" background-image: linear-gradient(90deg, #5674ed, #2dd5fb);border-radius: 25px;" type="submit">Submit Now</button>
+                    </form>
+                   
+                </div>
+                <div class="col-lg-5">
+                    <div class="">
+                        <label>تحديد الموقع</label>
+                        <div class="rounded">
+                            <div id="map" style="height: 425px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block script %}
+<script>
+    var map = L.map('map').setView([32.89605782530956, 13.178557744256981], 13);
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
+
+    var marker
+    map.on('click', function(e) {        
+        var popLocation= e.latlng;
+        console.log(popLocation)
+        $('#lable-lat').text(popLocation.lat)
+        $('#lat').val(popLocation.lat)
+        $('#lable-lng').text(popLocation.lng)
+        $('#lng').val(popLocation.lng)
+        if(marker != undefined){
+            map.removeLayer(marker)
+        }
+        marker =L.marker([popLocation.lat, popLocation.lng]).addTo(map)
+        .bindPopup('<p>تم تحديد الموقع</p>')
+        .openPopup();   
+    });
+    $('input.form-control').parent('div').addClass('col-md-6')
+</script>
+{% endblock script %}

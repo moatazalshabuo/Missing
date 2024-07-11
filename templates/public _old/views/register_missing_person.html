@@ -1,0 +1,355 @@
+{% extends "public/base.html" %}
+
+{% block style %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+crossorigin=""/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+crossorigin=""></script>
+<style>
+   
+    
+    .stepwizard-step p {
+        margin-top: 10px;
+    }
+    
+    .stepwizard-row {
+        display: table-row;
+    }
+    
+    .stepwizard {
+        display: table;
+        width: 100%;
+        position: relative;
+    }
+    
+    .stepwizard-step button[disabled] {
+        opacity: 1 !important;
+        filter: alpha(opacity=100) !important;
+    }
+    
+    .stepwizard-row:before {
+        top: 14px;
+        bottom: 0;
+        position: absolute;
+        content: " ";
+        width: 100%;
+        height: 1px;
+        background-color: #ccc;
+        z-order: 0;
+    
+    }
+    
+    .stepwizard-step {
+        display: table-cell;
+        text-align: center;
+        position: relative;
+    }
+    
+    .btn-circle {
+      width: 30px;
+      height: 30px;
+      text-align: center;
+      padding: 6px 0;
+      font-size: 12px;
+      line-height: 1.428571429;
+      border-radius: 15px;
+    }
+    label{
+        margin-bottom: 5px;
+    }
+</style>
+{% endblock style %}
+
+{% block content %}
+<div class="container my-5 pt-5">
+    <figure class="text-center">
+        <blockquote class="blockquote">
+          <p>. صفحة تسجيل المفقودين</p>
+        </blockquote>
+        <figcaption class="blockquote-footer">
+          Someone famous in <cite title="Source Title">Source Title</cite>
+        </figcaption>
+      </figure>
+    <div class="stepwizard">
+        <div class="stepwizard-row setup-panel">
+            <div class="stepwizard-step">
+                <a href="#step-1" type="button" class="btn btn-primary btn-circle">1</a>
+                <p>معلومات المفقود</p>
+            </div>
+            <div class="stepwizard-step">
+                <a href="#step-2" type="button" class="btn btn-default btn-circle" disabled="disabled">2</a>
+                <p>معلومات اضافية</p>
+            </div>
+            <div class="stepwizard-step">
+                <a href="#step-3" type="button" class="btn btn-default btn-circle" disabled="disabled">3</a>
+                <p>تحدديد موقع الاختفاء</p>
+            </div>
+            <div class="stepwizard-step">
+                <a href="#step-4" type="button" class="btn btn-default btn-circle" disabled="disabled">4</a>
+                <p>بيانات المبلغ</p>
+            </div>
+        </div>
+    </div>
+    <form role="form" action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="row setup-content" id="step-1">
+            <div class="col-xs-12">
+                <div class="col-md-12">
+                    <h3 class="section-title">المعلومات الشخصية</h3>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group m-3">
+                                <label for="first_name">الاسم الأول</label>
+                                <input type="text" class="form-control" required  id="first_name" name="first_name">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group m-3">
+                                <label for="last_name">اسم العائلة</label>
+                                <input type="text" class="form-control" required placeholder="اسم العائلة" id="last_name" name="last_name">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group m-3">
+                                <label for="birth_date">تاريخ الميلاد</label>
+                                <input type="date" class="form-control" id="birth_date" required name="birth_date">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group m-3">
+                                <label for="gender">الجنس</label>
+                                <select id="gender" class="form-control" name="gender" required>
+                                    <option value=""></option>
+                                    <option value="M">ذكر</option>
+                                    <option value="F">أنثى</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group m-3">
+                                <label for="height">الطول</label>
+                                <input type="number" class="form-control" step="0.01" id="height" required name="height">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group m-3">
+                                <label for="weight">الوزن</label>
+                                <input type="number" class="form-control" step="0.01" id="weight" required name="weight">
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary nextBtn  text-light" style="float: left;" type="button" >التالي</button>
+                </div>
+            </div>
+        </div>
+        <div class="row setup-content" id="step-2">
+            <div class="col-xs-12">
+                <div class="col-md-12">
+                    <h3 class="section-title">بيانات اخرى</h3>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group m-3">
+                                <label for="hair_color">لون الشعر</label>
+                                <select id="hair_color" class="form-control" required name="hair_color" >
+                                    <option value="اختيار">اختيار</option>
+                                    <option value="أسود">أسود</option>
+                                    <option value="بني">بني</option>
+                                    <option value="أشقر">أشقر</option>
+                                    <option value="أحمر">أحمر</option>
+                                    <option value="أبيض">أبيض</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group m-3">
+                                <label for="eye_color">لون العينين</label>
+                                <select id="eye_color" class="form-control" required name="eye_color" >
+                                    <option value="اختيار">اختيار</option>
+                                    <option value="أسود">أسود</option>
+                                    <option value="بني">بني</option>
+                                    <option value="أزرق">أزرق</option>
+                                    <option value="أخضر">أخضر</option>
+                                    <option value="رمادي">رمادي</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group m-3">
+                                <label for="last_seen_date">تاريخ آخر مرة شوهد فيها</label>
+                                <input type="datetime" class="form-control" required id="last_seen_date" name="last_seen_date">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group m-3">
+                                <label for="health_conditions">الحالة الصحية</label>
+                                <input type="text" id="health_conditions" required class="form-control" name="health_conditions" >
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group m-3">
+                                <label for="distinguishing_marks">علامات مميزة</label>
+                                <textarea id="distinguishing_marks" class="form-control" required name="distinguishing_marks"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group m-3">
+                                <label for="last_seen_clothing">الملابس عند الاختفاء</label>
+                                <textarea id="last_seen_clothing" class="form-control" required name="last_seen_clothing"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group m-3">
+                                <label for="photo">صورة حديثة</label>
+                                <input type="file" id="photo" class="form-control" required name="photo">
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary nextBtn text-light"  style="float: left;" type="button" >التالي</button>
+                </div>
+            </div>
+        </div>
+        <div class="row setup-content" id="step-3">
+            <div class="col-xs-12">
+                <div class="col-md-12">
+                    <h3> تحديد مكان الاختفاء
+                    </h3>
+                    <div class="row">
+                        <div class="col-md-9">
+                            <div class="position-relative overflow-hidden rounded">
+                                <div id="map" style="height: 400px;"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <p>احداثيات الموقع</p>
+                            <div class="form-group">
+                                <label>خط العرض <span id='lable-lat'></span></label>
+                                <input type="hidden" id="lat" name="lat">
+                            </div>
+                            <div class="form-group">
+                                <label>خط الطول <span id='lable-lng'></span></label>
+                                <input type="hidden"  id="lng" name="lng">
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary text-light m-3 nextBtn" style="float: left;" type="button">التالي</button>
+                </div>
+            </div>
+        </div>
+        <div class="row setup-content" id="step-4">
+            <div class="col-xs-12">
+                <div class="col-md-12">
+                    <div class="row">
+                        <!-- قسم معلومات المبلغ -->
+                        <div class="col-md-6">
+                            <h3 class="section-title">معلومات المبلغ</h3>
+                            <div class="form-group m-3">
+                                <label for="first_name">الاسم الأول</label>
+                                <input type="text" class="form-control" id="first_name" name="first_name_l">
+                            </div>
+                            <div class="form-group m-3">
+                                <label for="last_name">اسم العائلة</label>
+                                <input type="text" class="form-control" id="last_name" name="last_name_l">
+                            </div>
+                            <div class="form-group m-3">
+                                <label for="relationship_to_missing">العلاقة بالمفقود</label>
+                                <input type="text" class="form-control" id="relationship_to_missing" name="relationship_to_missing_l">
+                            </div>
+                            <div class="form-group m-3">
+                                <label for="phone_number">رقم الهاتف</label>
+                                <input type="text" class="form-control" id="phone_number" name="phone_number_l">
+                            </div>
+                        </div>
+                        <!-- قسم معلومات الاتصال -->
+                        <div class="col-md-6">
+                           
+                            <div class="form-group m-3">
+                                <label for="address">عنوان السكن</label>
+                                <input type="text" class="form-control" id="address" name="address_l">
+                            </div>
+                            
+                            <div class="form-group m-3">
+                                <label for="additional_info">معلومات إضافية</label>
+                                <textarea class="form-control" id="additional_info" name="additional_info_l"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-success text-light m-3" type="submit">Finish!</button>
+                </div>
+            </div>
+        </div>
+    </form>
+    </div>
+{% endblock content %}
+
+{% block script %}
+<script>
+    $(document).ready(function () {
+
+        var navListItems = $('div.setup-panel div a'),
+                allWells = $('.setup-content'),
+                allNextBtn = $('.nextBtn');
+    
+        allWells.hide();
+    
+        navListItems.click(function (e) {
+            e.preventDefault();
+            var $target = $($(this).attr('href')),
+                    $item = $(this);
+    
+            if (!$item.hasClass('disabled')) {
+                navListItems.removeClass('btn-primary').addClass('btn-default');
+                $item.addClass('btn-primary');
+                allWells.hide();
+                $target.show();
+                $target.find('input:eq(0)').focus();
+            }
+        });
+    
+        allNextBtn.click(function(){
+            var curStep = $(this).closest(".setup-content"),
+                curStepBtn = curStep.attr("id"),
+                nextStepWizard = $('div.setup-panel div a[href="#' + curStepBtn + '"]').parent().next().children("a"),
+                curInputs = curStep.find("input"),
+                isValid = true;
+                console.log(curInputs)
+            $(".form-group").removeClass("has-error");
+            for(var i=0; i<curInputs.length; i++){
+                if (!curInputs[i].validity.valid){
+                    isValid = false;
+                    $(curInputs[i]).closest(".form-group").addClass("has-error");
+                }
+            }
+    
+            if (isValid)
+                nextStepWizard.removeAttr('disabled').trigger('click');
+        });
+    
+        $('div.setup-panel div a.btn-primary').trigger('click');
+    });
+</script>
+<script>
+    var map = L.map('map').setView([32.89605782530956, 13.178557744256981], 13);
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
+
+    var marker
+    map.on('click', function(e) {        
+        var popLocation= e.latlng;
+        console.log(popLocation)
+        $('#lable-lat').text(popLocation.lat)
+        $('#lat').val(popLocation.lat)
+        $('#lable-lng').text(popLocation.lng)
+        $('#lng').val(popLocation.lng)
+        if(marker != undefined){
+            map.removeLayer(marker)
+        }
+        marker =L.marker([popLocation.lat, popLocation.lng]).addTo(map)
+        .bindPopup('<p>تم تحديد الموقع</p>')
+        .openPopup();   
+    });
+</script>
+{% endblock script %}

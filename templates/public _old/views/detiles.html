@@ -1,0 +1,108 @@
+{% extends "public/base.html" %}
+
+{% block style %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+crossorigin=""/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+crossorigin=""></script>
+<style>
+    
+    
+</style>
+{% endblock style %}
+
+{% block content %}
+<div class="container-fluid py-5">
+    <div class="container py-5">
+        <ol class="breadcrumb justify-content-start mb-4">
+            <li class="breadcrumb-item"><a href="#"> الرئيسية</a></li>
+            <li class="breadcrumb-item"><a href="#">تفاصيل المفقود</a></li>
+            
+        </ol>
+        <div class="row g-4">
+            <div class="col-lg-8">
+                <div class="mb-4">
+                    <a href="#" class="h1 display-5"><li class="list-group-item"><strong>{{ person.first_name }} {{ person.last_name }}</strong></a>
+                </div>
+                <div class="position-relative rounded overflow-hidden mb-3">
+                    <div id="map" style="height: 500px;"></div>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <a href="#" class="text-dark link-hover me-3"><i class="fa fa-clock"></i> 06 minute read</a>
+                    <a href="#" class="text-dark link-hover me-3"><i class="fa fa-eye"></i> 3.5k Views</a>
+                    <a href="#" class="text-dark link-hover me-3"><i class="fa fa-comment-dots"></i> 05 Comment</a>
+                    <a href="#" class="text-dark link-hover"><i class="fa fa-arrow-up"></i> 1.5k Share</a>
+                </div>
+               
+            </div>
+            <div class="col-lg-4">
+                <div class="row g-4">
+                    <div class="col-12">
+                        <div class="p-3 rounded border">
+                            <a href="{% url 'public.report' person.id %}" class="w-100 rounded btn btn-primary d-flex align-items-center p-3 mb-2">
+                               <span class="btn btn-light btn-square rounded-circle m-3">
+                                <i class="fas fa-question text-primary"></i></span>
+                                
+                                <span class="text-white">ابلاغ عن معلومات</span>
+                            </a>
+                            <h4 class="mb-4">بيانات الاختفاء</h4>
+                            <ul class="list-group">
+                                <li class="list-group-item"><img src="{{ person.photo.url }}" alt="صورة حديثة" class="img-fluid w-75 m-auto rounded-circle"></li>
+                                
+                                <li class="list-group-item"><strong>تاريخ الميلاد:</strong> {{ person.birth_date }}</li>
+                                <li class="list-group-item"><strong>العمر:</strong> {{ person.get_birt_day }}</li>
+                                <li class="list-group-item"><strong>الجنس:</strong> {{ person.get_gender }}</li>
+                                <li class="list-group-item"><strong>الطول:</strong> {{ person.height }} سم</li>
+                                <li class="list-group-item"><strong>الوزن:</strong> {{ person.weight }} كجم</li>
+                                <li class="list-group-item"><strong>لون الشعر:</strong> {{ person.hair_color }}</li>
+                                <li class="list-group-item"><strong>لون العينين:</strong> {{ person.eye_color }}</li>
+                                <li class="list-group-item"><strong>علامات مميزة:</strong> {{ person.distinguishing_marks }}</li>
+                                <li class="list-group-item"><strong>تاريخ آخر مرة شوهد فيها:</strong> {{ person.last_seen_date }}</li>
+                                <li class="list-group-item"><strong>الحالة الصحية:</strong> {{ person.health_conditions }}</li>
+                                <li class="list-group-item"><strong>الملابس عند الاختفاء:</strong> {{ person.last_seen_clothing }}</li>
+                                <li class="list-group-item"><strong>الحالة:</strong> {{ person.get_status }}</li>
+                                <li class="list-group-item"><strong>تاريخ الابلاغ:</strong> {{ person.created_at }}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block script %}
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false" type="text/javascript"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.2/axios.min.js"></script>
+<script>
+    $( function() {
+        var lat = {{ person.lat }} // Latitude of the last seen location
+        var lng = {{ person.lng }} // Longitude of the last seen location
+        var lastSeenDate = new Date('{{ person.last_seen_date }}') // Last seen date in YYYY-MM-DD format
+        const date = new Date();
+
+        var hours = Math.floor((date.getTime() - lastSeenDate.getTime()) / (1000 * 3600))
+        var map = L.map('map').setView([lat, lng], 10);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        L.marker([lat, lng]).addTo(map)
+        .openPopup();
+        console.log('{{ person.last_seen_date }}')
+        var circle = L.circle([lat, lng], {
+            color: 'red',
+            fillColor: '#f03',
+            fillOpacity: 0.5,
+            radius: (50 * hours) >= 10000?10000:50 * hours // Increase radius by 50 meters per day
+        }).addTo(map);
+    });
+</script>
+
+{% endblock script %}

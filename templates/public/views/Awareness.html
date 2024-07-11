@@ -1,0 +1,192 @@
+{% extends "public/base.html" %}
+{% load static %}
+{% block style %}
+<style>
+    header{
+        top:0px !important
+    }
+</style>
+{% endblock style %}
+
+{% block content %}
+
+<div id="clients" class="the-clients" style="margin-top: 120px;">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="section-heading text-right">
+            <h4>توعية <em>سلامة</em>الاطفال</h4>
+            <img src="assets/images/heading-line-dec.png" alt="">
+            <p>
+                تعتبر التربٌة من المهام الشالة، ومن أكثر المضاٌا التً تشغل اهتمام الوالدٌن دوماً كٌفٌة الحفاظ على أمن طفلهما من الضٌاع
+                أو الخطف، عند وجودهما بالخارج.
+                ومن أجل مساعدة اآلباء واألمهات فً تنفٌذ هذه المهمة، جمعنا مجموعة من الطرق والوسائل للحفاظ على طفلن من الضٌاع 
+                والخطف، منها            </p>
+          </div>
+        </div>
+      </div>
+<div class="awareness-section">
+      <div class="awareness-item my-5">
+        <div class="row">
+          <div class="col-6">
+            <div class="box-item">
+              <h4><a href="#">تصوير الطفل قبل الذهاب إلى أماكن مزدحمة.</a></h4>
+            </div>
+            <p>
+              استخدام الصورة الفعلية لملامح الطفل وملابسه التي كان يرتديها لتسهيل البحث عليه في حال فقدانه.
+            </p>
+          </div>
+          <div class="col-2"></div><div class="col-4">
+            <img src="{% static 'public/hh/girl-with-toy-camera.png' %}" class="rounded" width="200" height='200' alt="تصوير الطفل">
+          </div>
+        </div>
+      </div>
+  
+      <div class="awareness-item my-5">
+        <div class="row">
+            <div class="col-4">
+                <img src="{% static 'public/hh/little-kid-playing-with-mobile.jpg' %}" class="rounded" width="200" height='200' alt="استخدام الأجهزة الذكية">
+              </div>
+              <div class="col-2"></div>
+          <div class="col-6">
+            <div class="box-item">
+              <h4>#<a href="#">اجهزة التتبع</a></h4>
+            </div>
+            <p>
+                تساعد التكنولوجٌا والتمنٌات الحدٌثة اآلباء واألمهات على حماٌة أطفالهم، عندما ٌكونون فً أماكن بعٌدة عنهم عن طرٌك 
+                توفٌر أجهزة تتبع الموالع الجغرافٌة (GPS (الموجودة فً الساعات الذكٌة واألجهزة اللوحٌة والهواتف، وهنان العدٌد من 
+                إذا تجاوز الطفل الحد الجغرافً أو المكان
+                األجهزة األخرى، مثل أحزمة الخصر التً تُحدد مولع الطفل، وترسل تنبٌهاً
+                المفترض به الوجود بداخله.            </p>
+          </div>
+          
+        </div>
+      </div>
+  
+      <div class="awareness-item my-5">
+        <div class="row">
+          <div class="col-6">
+            <div class="box-item">
+              <h4><a href="#">  تخصٌص الوقت للحديث مع الطفل</a></h4>
+            </div>
+            <p>
+                التحدث مع العائلة بشكل دوري حول كيفية التصرف إذا ضاع الطفل.
+              مناقشة الإجراءات الواجب اتباعها في حالة فقدان الطفل مع العائلة بشكل دوري لضمان استعداد الجميع لأي طارئ.
+            </p>
+          </div>
+          <div class="col-2"></div><div class="col-4">
+            <img src="{% static 'public/hh/father-son-practicing-active-listening-taking-turns-repeating-what-other-has-said_216520-154305.avif' %}" class="rounded" width="200" height='200' alt="التحدث مع العائلة">
+          </div>
+        </div>
+      </div>
+  
+      <div class="awareness-item my-5">
+        <div class="row">
+            <div class="col-4">
+                <img src="{% static 'public/hh/hand-drawn-kawaii-character-business-card-template.png' %}" class="rounded" width="200" height='300' alt="بطاقة تعريفية">
+              </div>
+        <div class="col-2"></div>
+          <div class="col-6">
+            <div class="box-item">
+              <h4><a href="#">إنشاء بطاقة تعريفية للأطفال الصغار.</a></h4>
+            </div>
+            
+            <p>
+              تزويد الطفل ببطاقة تعريفية تحتوي على اسمه ورقم الهاتف الخاص بالعائلة لسهولة التواصل في حال ضياعه.
+            </p>
+          </div>
+          
+        </div>
+      </div>
+  
+      <div class="awareness-item my-5">
+        <div class="row">
+          <div class="col-6">
+            <div class="box-item">
+              <h4><a href="#">تعليم الطفل المعلومات الأساسية مثل الاسم الكامل ورقم الهاتف والعنوان.</a></h4>
+            </div>
+            <p>
+              تعليم الطفل كيفية إعطاء معلوماته الأساسية مثل اسمه الكامل ورقم الهاتف والعنوان لسهولة الوصول إليه في حال ضياعه.
+            </p>
+          </div>
+          <div class="col-2"></div><div class="col-4">
+            <img src="{% static 'public/hh/hand-drawn-speech-therapy-illustration.png' %}" class="rounded" width="200" height='300' alt="تعليم المعلومات الأساسية">
+          </div>
+        </div>
+      </div>
+  
+      <div class="awareness-item my-5">
+        <div class="row">
+          <div class="col-4">
+            <img src="{% static 'public/hh/realistic-friendship-band.png' %}" class="rounded" width="200" height='200' alt="تعليم المعلومات الأساسية">
+          </div>
+          <div class="col-2"></div>
+          <div class="col-6">
+            <div class="box-item">
+              <h4><a href="#">استخدام الأساور التي تحتوي على رقم الهاتف.</a></h4>
+            </div>
+            <p>
+              استخدام الأساور التي تحتوي على رقم الهاتف يمكن أن يساعد في الاتصال بالعائلة بسرعة في حال ضياع الطفل.
+            </p>
+          </div>
+         
+        </div>
+      </div>
+  
+      <div class="awareness-item my-5">
+        <div class="row">
+          <div class="col-6">
+            <div class="box-item">
+              <h4><a href="#">تعليم الطفل كيفية طلب المساعدة من الأشخاص المناسبين.</a></h4>
+            </div>
+            <p>
+              تعليم الطفل كيفية طلب المساعدة من الشرطة أو المسؤولين في حال ضياعه يمكن أن يسهل العثور عليه بسرعة.
+            </p>
+          </div>
+          <div class="col-2"></div><div class="col-4">
+            <img src="{% static 'public/hh/father-son-practicing-active-listening-taking-turns-repeating-what-other-has-said_216520-154305.avif' %}" class="rounded" width="200" height='200' alt="التحدث مع العائلة">
+          </div>
+        </div>
+      </div>
+  
+      <div class="awareness-item my-5">
+        <div class="row">
+          <div class="col-6">
+            <div class="box-item">
+              <h4><a href="#">توجيه الطفل للبقاء في مكانه إذا ضاع.</a></h4>
+            </div>
+            <p>
+              توجيه الطفل للبقاء في مكانه إذا ضاع يمكن أن يسهل العثور عليه من قبل الأهل أو المسؤولين.
+            </p>
+          </div>
+          <div class="col-2"></div><div class="col-4">
+            <img src="{% static 'public/hh/flat-world-humanitarian-day-illustration-with-person-offering-support-child.png' %}" class="rounded" width="200" height='300' alt="البقاء في مكانه">
+          </div>
+        </div>
+      </div>
+  
+      <div class="awareness-item my-5" >
+        <div class="row">
+          <div class="col-4">
+            <img src="{% static 'public/hh/boy-with-glasses-man-writing-classroom.jpg' %}" class="rounded" width="200" height='200' alt="التدرب مع الطفل">
+          </div>
+          <div class="col-2"></div>
+          <div class="col-6">
+            <div class="box-item">
+              <h4><a href="#">التدرب مع الطفل على سيناريوهات مختلفة.</a></h4>
+            </div>
+            <p>
+              التدريب مع الطفل على سيناريوهات مختلفة لضمان معرفته بالإجراءات الواجب اتباعها في حالات الطوارئ.
+            </p>
+          </div>
+          
+        </div>
+      </div>
+</div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block script %}
+<!-- Include any additional scripts if needed -->
+{% endblock script %}

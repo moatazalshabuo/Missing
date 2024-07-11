@@ -1,0 +1,12 @@
+version: '3'
+services:
+  app:
+    build: .
+    volumes: 
+      - .:/test #save from this file in Inventory file and it's exiset in Workdir File 
+    ports:
+      - 1515:1515 # make this Pc and docker work in the same port 
+    image: app:test # make image app invetory
+    container_name: test #container name 
+    command: python manage.py runserver 0.0.0.0:1515 
+    

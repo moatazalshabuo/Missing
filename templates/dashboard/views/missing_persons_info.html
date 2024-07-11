@@ -1,0 +1,60 @@
+{% extends "dashboard/base.html" %}
+{% load static %}
+{% block style %}
+
+{% endblock style %}
+<style>
+
+</style>
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">المعلومات المقدمة</h3>
+    </div>
+    <div class="card-body table-responsive" >
+        <table class="table table-bordered table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th>الاسم الأول</th>
+                    <th>اسم العائلة</th>
+                    <th>حول</th>
+                    <th>نوع المعلومة</th>
+                    <th>التفاصيل</th>
+                    <th>عرض البلاغ</th>
+                    <th>تاريخ الاضافة</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for person in report %}
+                <tr>
+                    <td>{{ person.user.first_name }}</td>
+                    <td>{{ person.user.last_name }}</td>
+                    <td>{{ person.missing_person.first_name }} {{  person.missing_person.last_name }} </td>
+                    <td>{{ person.get_status_of_report_display }}</td>
+                    <td>{{ person.additional_info }}</td>
+                    <td><a href="{% url 'missing_person_detail' person.missing_person.id %}" class="btn btn-primary btn-sm" >
+                        عرض التفاصيل
+                    </a></td>
+                    <td>
+                      {{ person.create_at }}
+                    </td>                    
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock content %}
+
+{% block script %}
+<script>
+    $(function(){
+        $('table').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+                'excel'
+            ]
+        });
+    })
+</script>
+{% endblock script %}

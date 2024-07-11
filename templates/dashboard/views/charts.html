@@ -1,0 +1,375 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+
+{% block style %}
+<link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.css" />
+<style>
+    td,th{
+        font-size: 12px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">تفاصيل الشخص المفقود</span></h4>
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="region">اختر المنطقة:</label>
+                        <select id="region" class="form-control"></select>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="start_date">اختر تاريخ البدء:</label>
+                                <input type="date" id="start_date" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="end_date">اختر تاريخ الانتهاء:</label>
+                                <input type="date" id="end_date" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-primary" onclick="filterData()">عرض</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 my-2">
+            <div class="row">
+                
+            </div>
+        </div>
+        <div class="col-9 my-2">
+            <div class="card">
+                
+                <div class="card-body">
+                    <h4 class="card-title">عدد الاطفال المفقودين حسب المنطقة</h4>
+                    <div id="missing_chart"></div>
+                </div>
+                <div class="card-body">
+                    <h4 class="card-title">توزيع الاطفال المفقودين حسب العمر</h4>
+                    <div id="age_group_chart"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-3 ">
+            <div class="">
+                <div class="card my-1">
+                    <div class="card-body">
+                      <div class="card-title d-flex align-items-start justify-content-between">
+                        <div class="avatar flex-shrink-0">
+                            <i class='bx bxs-user-badge text-primary' style="font-size: 40px;"></i>
+                        </div>
+                      </div>
+                      <span class="fw-semibold d-block mb-1">الاطفال المفقودين</span>
+                      <h3 class="card-title mb-2"id="total_missing">{{ data.total_missing  }}</h3>
+                    </div>
+                  </div>
+            </div>
+            <div class="">
+                <div class="card my-1">
+                    <div class="card-body">
+                      <div class="card-title d-flex align-items-start justify-content-between">
+                        <div class="avatar flex-shrink-0">
+                            <i class='bx bxs-user-badge text-primary' style="font-size: 40px;"></i>
+                        </div>
+                      </div>
+                      <span class="fw-semibold d-block mb-1">الاطفال الذين ثم العثور عليهم</span>
+                      <h3 class="card-title mb-2" id="total_found">{{ data.total_found }}</h3>
+                    </div>
+                  </div>
+            </div>
+            <div class="">
+                <div class="card my-1">
+                    <div class="card-body">
+                      <div class="card-title d-flex align-items-start justify-content-between">
+                        <div class="avatar flex-shrink-0">
+                            <i class='bx bxs-user-badge text-primary' style="font-size: 40px;"></i>
+                        </div>
+                      </div>
+                      <span class="fw-semibold d-block mb-1">البلاغات المرفوضة</span>
+                      <h3 class="card-title mb-2"id="total_rejected">{{ data.total_rejected }}</h3>
+                    </div>
+                  </div>
+            </div>
+            <div class="">
+                <div class="card my-1">
+                    <div class="card-body">
+                      <div class="card-title d-flex align-items-start justify-content-between">
+                        <div class="avatar flex-shrink-0">
+                            <i class='bx bxs-user-badge text-primary' style="font-size: 40px;"></i>
+                        </div>
+                      </div>
+                      <span class="fw-semibold d-block mb-1">اجمالي البلاغات</span>
+                      <h3 class="card-title mb-2" id="total_reports">{{ data.total_reports }}</h3>
+                    </div>
+                  </div>
+            </div>
+        </div>
+        <div class="col-6 my-2">
+            <div class="card ">
+                
+                <div class="card-body">
+                    <h4 class="card-title">عدد الأشخاص الذين تم العثور عليهم حسب المنطقة</h4>
+                    <div id="found_chart"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 my-2">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">توجهات الأشخاص المفقودين حسب المنطقة خلال فترات زمنية مختلفة</h4>
+
+                    <div id="trend_chart"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 my-2">
+            <div class="card">
+                <div class="card-body table-responsive">
+                    <h4 class="card-title">جدول الأشخاص المفقودين</h4>
+                    <table id="missing_table" class="display">
+                        <thead>
+                            <tr>
+                                <th>الاسم الأول</th>
+                                <th>اسم العائلة</th>
+                                <th>تاريخ الميلاد</th>
+                                <th>الجنس</th>
+                                <th>الطول</th>
+                                <th>الوزن</th>
+                                <th>لون الشعر</th>
+                                <th>لون العينين</th>
+                                <th>تاريخ آخر مرة شوهد فيها</th>
+                                <th>المنطقة</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 my-2">
+            <div class="card">
+                <div class="card-body table-responsive">
+                    <h4 class="card-title">جدول الأطفال الذين تم العثور عليهم</h4>
+                    <table id="found_children_table" class="display">
+                        <thead>
+                            <tr>
+                                <th>الاسم الأول</th>
+                                <th>اسم العائلة</th>
+                                <th>تاريخ الميلاد</th>
+                                <th>الجنس</th>
+                                <th>الطول</th>
+                                <th>الوزن</th>
+                                <th>لون الشعر</th>
+                                <th>لون العينين</th>
+                                <th>تاريخ آخر مرة شوهد فيها</th>
+                                <th>المنطقة</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for person in missing_persons %}
+                            <tr>
+                                <td>{{ person.first_name }}</td>
+                                <td>{{ person.last_name }}</td>
+                                <td>{{ person.birth_date }}</td>
+                                <td>{{ person.get_gender_display }}</td>
+                                <td>{{ person.height }}</td>
+                                <td>{{ person.weight }}</td>
+                                <td>{{ person.hair_color }}</td>
+                                <td>{{ person.eye_color }}</td>
+                                <td>{{ person.last_seen_date }}</td>
+                                <td>{{ person.Region }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+          
+
+        </div>
+    </div>
+</div>
+ 
+{% endblock %}
+
+{% block script %}
+<script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.2/axios.min.js" integrity="sha512-JSCFHhKDilTRRXe9ak/FJ28dcpOJxzQaCd3Xg8MyF6XFjODhy/YMCM8HW0TFDckNHWUewW+kfvhin43hKtJxAw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+    var initialData = {{ data|safe }};
+        
+    var missingChart, foundChart, trendChart, ageGroupChart;
+
+    function renderCharts(data) {
+        if (missingChart) {
+            missingChart.updateSeries([{
+                name: 'عدد الأشخاص المفقودين',
+                data: data.missing.counts
+            }]);
+        } else {
+            var missingOptions = {
+                chart: {
+                    type: 'bar'
+                },
+                colors: ['#FF5733'],
+                series: [{
+                    name: 'عدد الأشخاص المفقودين',
+                    data: data.missing.counts
+                }],
+                xaxis: {
+                    categories: data.missing.regions
+                }
+            };
+            missingChart = new ApexCharts(document.querySelector("#missing_chart"), missingOptions);
+            missingChart.render();
+        }
+
+        if (foundChart) {
+            foundChart.updateSeries([{
+                name: 'عدد الأشخاص الذين تم العثور عليهم',
+                data: data.found.counts
+            }]);
+        } else {
+            var foundOptions = {
+                chart: {
+                    type: 'bar'
+                },
+                colors: ['#33FF57'],
+                series: [{
+                    name: 'عدد الأشخاص الذين تم العثور عليهم',
+                    data: data.found.counts
+                }],
+                xaxis: {
+                    categories: data.found.regions
+                }
+            };
+            foundChart = new ApexCharts(document.querySelector("#found_chart"), foundOptions);
+            foundChart.render();
+        }
+
+        if (trendChart) {
+            trendChart.updateSeries([{
+                name: 'عدد الأشخاص المفقودين',
+                data: data.trend.counts
+            }]);
+        } else {
+            var trendOptions = {
+                chart: {
+                    type: 'line'
+                },
+                series: [{
+                    name: 'عدد الأشخاص المفقودين',
+                    data: data.trend.counts
+                }],
+                xaxis: {
+                    categories: data.trend.months
+                }
+            };
+            trendChart = new ApexCharts(document.querySelector("#trend_chart"), trendOptions);
+            trendChart.render();
+        }
+
+        if (ageGroupChart) {
+            ageGroupChart.updateSeries(Object.values(data.age_groups));
+        } else {
+            var ageGroupOptions = {
+                chart: {
+                    type: 'pie'
+                },
+                series: Object.values(data.age_groups),
+                labels: Object.keys(data.age_groups),
+                colors: ['#FFC300', '#FF5733', '#C70039', '#900C3F', '#581845']
+            };
+            ageGroupChart = new ApexCharts(document.querySelector("#age_group_chart"), ageGroupOptions);
+            ageGroupChart.render();
+        }
+
+        document.getElementById('total_missing').textContent = data.total_missing;
+        document.getElementById('total_found').textContent = data.total_found;
+        document.getElementById('total_rejected').textContent = data.total_rejected;
+        document.getElementById('total_reports').textContent = data.total_reports;
+    }
+
+    function updateTables(data) {
+        $('#missing_table').DataTable().clear().draw();
+        $('#found_children_table').DataTable().clear().draw();
+        console.log(data)
+        data.missing_people.forEach(person => {
+            $('#missing_table').DataTable().row.add([
+                person.first_name,
+                person.last_name,
+                person.birth_date,
+                person.gender,
+                person.height,
+                person.weight,
+                person.hair_color,
+                person.eye_color,
+                person.last_seen_date,
+                person.Region
+            ]).draw();
+        });
+
+        data.found_people.forEach(person => {
+            $('#found_children_table').DataTable().row.add([
+                person.first_name,
+                person.last_name,
+                person.birth_date,
+                person.gender,
+                person.height,
+                person.weight,
+                person.hair_color,
+                person.eye_color,
+                person.last_seen_date,
+                person.Region
+            ]).draw();
+        });
+    }
+    function filterData() {
+        var startdate = document.getElementById('start_date').value;
+        var enddate = document.getElementById('end_date').value;
+        var Regionn = document.getElementById('region').value;
+
+        axios(`/filter_data_by_region_and_date`,{params:{start_date:startdate,end_date:enddate,region:Regionn}})
+            .then((data)=>{
+                renderCharts(data.data);
+                updateTables(data.data)
+            });
+    }
+
+    
+    function fillRegionSelect(data) {
+        var regionSelect = document.getElementById('region');
+        data.missing.regions.forEach(region => {
+            var option = document.createElement('option');
+            option.value = region;
+            option.text = region;
+            regionSelect.add(option);
+        });
+    }
+    
+    document.addEventListener('DOMContentLoaded', function () {
+        renderCharts(initialData);
+        fillRegionSelect(initialData);
+        updateTables(initialData)
+    });
+    $(function(){
+        $('#missing_table').DataTable();
+        $('#found_children_table').DataTable();
+        
+    })
+</script>
+{% endblock %}

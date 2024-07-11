@@ -1,0 +1,230 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+{% block style %}
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <style>
+    #map {
+      height: 400px;
+      width: 100%;
+    }
+    .profile-img {
+      max-width: 100%;
+      height: auto;
+    }
+    .btn-action {
+      width: 48%;
+      margin: 1%;
+    }
+  </style>
+{% endblock %}
+
+{% block content %}
+
+  <div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">تفاصيل الطفل المفقود</span></h4>
+
+    <div class="row">
+      <div class="col-12">
+        {% if messages %}
+        <ul class="alert alert-success">
+          {% for val in messages %}
+              <li>{{ val }}</li>
+          {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+      <div class="col-md-12">
+
+        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">بيانات المفقود</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">معلومات مقدمه عنه</button>
+          </li>
+          
+        </ul>
+        <div class="tab-content p-0" id="pills-tabContent">
+          <div class="tab-pane active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+            <div class="card mb-4">
+              <div class="card-header">
+                <h5 class="card-title">بايانات الطفل المفقود</h5>
+                {% if person.status == '1' %}
+                <div style="float: left;">
+                  <a href="{% url 'found_person' person.id %}" class="btn btn-success btn-sm" >
+                      ثم العثور
+                  </a>
+                  
+                </div>
+                {% elif person.status == '0' %}
+                <div style="float: left;">
+                  <a href="{% url 'approve_person' person.id %}" class="btn btn-success btn-sm" >
+                      الموافقة
+                  </a>
+                  <a href="{% url 'reject_person' person.id %}" class="btn btn-danger btn-sm" title="رفض">
+                      رفض
+                  </a>
+                </div>
+                
+                {% endif %}
+              </div>
+              <!-- Account -->
+              <div class="card-body">
+                <div class="d-flex align-items-start align-items-sm-center gap-4">
+                  <img src="{{ person.photo.url }}" alt="user-avatar" class="d-block rounded" height="100" width="100" id="uploadedAvatar" />
+                  <div class="button-wrapper">
+                    <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
+                      <span class="d-none d-sm-block">{{ person.get_status_display }}</span>
+                      <i class="bx bx-upload d-block d-sm-none"></i>
+                      <input type="file" id="upload" class="account-file-input" hidden="" accept="image/png, image/jpeg" />
+                    </label>
+                    
+                  </div>
+                </div>
+              </div>
+              <hr class="my-0" />
+              <div class="card-body">
+                <form id="formAccountSettings" method="POST" onsubmit="return false">
+                  {% csrf_token %}
+                  <div class="row">
+                    <div class="mb-3 col-md-6">
+                      <label for="firstName" class="form-label">الاسم الأول</label>
+                      <input class="form-control" type="text" id="firstName" name="firstName" value="{{ person.first_name }}" autofocus="" disabled />
+                    </div>
+                    <div class="mb-3 col-md-6">
+                      <label for="lastName" class="form-label">اسم العائلة</label>
+                      <input class="form-control" type="text" name="lastName" id="lastName" value="{{ person.last_name }}" disabled />
+                    </div>
+                    <div class="mb-3 col-md-6">
+                      <label for="birthDate" class="form-label">تاريخ الميلاد</label>
+                      <input class="form-control" type="text" id="birthDate" name="birthDate" value="{{ person.birth_date }}" disabled />
+                    </div>
+                    <div class="mb-3 col-md-6">
+                      <label for="gender" class="form-label">الجنس</label>
+                      <input class="form-control" type="text" id="gender" name="gender" value="{{ person.get_gender_display }}" disabled />
+                    </div>
+                    <div class="mb-3 col-md-6">
+                      <label for="height" class="form-label">الطول</label>
+                      <input class="form-control" type="text" id="height" name="height" value="{{ person.height }}" disabled />
+                    </div>
+                    <div class="mb-3 col-md-6">
+                      <label for="weight" class="form-label">الوزن</label>
+                      <input class="form-control" type="text" id="weight" name="weight" value="{{ person.weight }}" disabled />
+                    </div>
+                    <div class="mb-3 col-md-6">
+                      <label for="hairColor" class="form-label">لون الشعر</label>
+                      <input class="form-control" type="text" id="hairColor" name="hairColor" value="{{ person.hair_color }}" disabled />
+                    </div>
+                    <div class="mb-3 col-md-6">
+                      <label for="eyeColor" class="form-label">لون العينين</label>
+                      <input class="form-control" type="text" id="eyeColor" name="eyeColor" value="{{ person.eye_color }}" disabled />
+                    </div>
+                    <div class="mb-3 col-md-6">
+                      <label for="lastSeenDate" class="form-label">تاريخ آخر مرة شوهد فيها</label>
+                      <input class="form-control" type="text" id="lastSeenDate" name="lastSeenDate" value="{{ person.last_seen_date }}" disabled />
+                    </div>
+                    <div class="mb-3 col-md-6">
+                      <label for="healthConditions" class="form-label">الحالة الصحية</label>
+                      <input class="form-control" type="text" id="healthConditions" name="healthConditions" value="{{ person.health_conditions }}" disabled />
+                    </div>
+                    <div class="mb-3 col-md-6">
+                      <label for="lastSeenClothing" class="form-label">الملابس عند الاختفاء</label>
+                      <input class="form-control" type="text" id="lastSeenClothing" name="lastSeenClothing" value="{{ person.last_seen_clothing }}" disabled />
+                    </div>
+                    <!-- Add other fields as needed -->
+                  </div>
+                  <div class="card-header">
+                    <h4 class="card-title">
+                      اخر مكان شوهد فيه على الخريطة
+                    </h4>
+                  </div>
+                  <div class="card-body">
+                    <div id="map" class="mt-3 mb-3"></div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+            <div class="card mb-4">
+              <h5 class="card-header">معلومات المستخدمين</h5>
+              <div class="card-body">
+                {% comment %} <blockquote class="blockquote mt-3">
+                  <p class="mb-0">A well-known quote, contained in a blockquote element.</p>
+                </blockquote> {% endcomment %}
+              </div>
+              <hr class="m-0">
+              
+              {% for val in person.info.all %}
+              <div class="card-body">
+                <small class="text-light fw-semibold">{{ val.user.first_name }} {{ val.user.last_name }}</small>
+
+                <span>{{ val.status }}</span>
+                <figure class="mt-2">
+                  <blockquote class="blockquote">
+                    <p class="mb-0">{{ val.additional_info }}</p>
+                  </blockquote>
+                  <figcaption class="blockquote-footer">
+                    تاريخ <cite title="Source Title">{{ create_at }}</cite>
+                  </figcaption>
+                </figure>
+              </div>
+              <hr class="m-0">
+              {% endfor %}
+            </div>
+          </div>
+        
+        </div>
+        <!-- /Account -->
+      </div>
+      <div class="card">
+        <h5 class="card-header">تفاصيل العثور</h5>
+        <div class="card-body">
+            <div class="mb-3 col-12 mb-0">
+                <div class="alert alert-info">
+                    <h6 class="alert-heading fw-bold mb-1">تفاصيل العثور على الطفل</h6>
+                </div>
+            </div>
+            {% if person.found_person_details %}
+            <div class="mb-3">
+              <label class="form-label fw-bold">تاريخ العثور:</label>
+              <p>{{ person.found_person_details.found_date }}</p>
+          </div>
+          <div class="mb-3">
+              <label class="form-label fw-bold">المنطقة:</label>
+              <p>{{ person.found_person_details.state }}</p>
+          </div>
+         
+          <div class="mb-3">
+              <label class="form-label fw-bold">الحالة الصحية الحالية:</label>
+              <p>{{ person.found_person_details.current_health_status }}</p>
+          </div>
+          <div class="mb-3">
+              <label class="form-label fw-bold">تفاصيل أخرى:</label>
+              <p>{{ person.found_person_details.other_detiles }}</p>
+          </div>
+          {% else %}
+          لايوجد
+            {% endif %}
+            
+        </div>
+    </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block script %}
+  <script>
+    
+   $(function(){
+      var map = L.map('map').setView([{{ person.lat }}, {{ person.lng }}], 13);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+    L.marker([{{ person.lat }}, {{ person.lng }}]).addTo(map)
+        .bindPopup('آخر مكان شوهد فيه.')
+        .openPopup();
+    })
+</script>
+{% endblock %}

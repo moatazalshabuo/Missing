@@ -1,0 +1,167 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" dir="rtl">
+
+  <head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+
+    <title>تسجيل الدخول</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'public/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+
+<!--
+
+TemplateMo 570 Chain App Dev
+
+https://templatemo.com/tm-570-chain-app-dev
+
+-->
+
+    <!-- Additional CSS Files -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'public/assets/css/templatemo-chain-app-dev.css'%}">
+    <link rel="stylesheet" href="{% static 'public/assets/css/animated.css' %}">
+    <link rel="stylesheet" href="{% static 'public/assets/css/owl.css'%}">
+    <link href="{% static 'public/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  
+  </head>
+
+<body>
+
+  <!-- ***** Preloader Start ***** -->
+  <div id="js-preloader" class="js-preloader">
+    <div class="preloader-inner">
+      <span class="dot"></span>
+      <div class="dots">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </div>
+  <!-- ***** Preloader End ***** -->
+
+
+  <div id="about" class="about-us section">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6 align-self-center">
+          <div class="section-heading">
+            <h4>تسجيل  <em>الدخول</em></h4>
+            <img src="{% static 'public/assets/images/heading-line-dec.png' %}" alt="">
+            {% comment %} <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eismod tempor incididunt ut labore et dolore magna.</p> {% endcomment %}
+          </div>
+          <div class="m-2 px-4" style="position: relative;z-index: 999;">
+            <div class="text-danger">
+              {% for message in messages %}
+                <center><strong>{{ message }}</strong></center>
+              {% endfor %}
+            </div>
+            <form action="" method="post">
+              {% csrf_token %}
+              <div data-mdb-input-init class="form-outline mb-4">
+                <label class="form-label" for="typeEmailX-2">اسم المستخدم</label>
+                <input type="text" name="username" id="typeEmailX-2" class="form-control form-control-lg" required />
+              </div>
+
+              <div data-mdb-input-init class="form-outline mb-4">
+                <label class="form-label" for="typePasswordX-2">كلمة المرور</label>
+                <input type="password" name="password" id="typePasswordX-2" class="form-control form-control-lg" required />
+              </div>
+              <button data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg w-100" type="submit">Login</button>
+            </form>
+            <hr class="my-4" />
+            <p style="font-size: 12px;text-align: center;">
+              
+                ليس لدي حساب <a href="{% url 'public.singup' %}">انشاء حساب جديد</a>
+            </p>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="right-image">
+            <img src="{% static 'public/assets/images/6310507.jpg' %}" alt="">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="{% static 'public/vendor/jquery/jquery.min.js'%}"></script>
+  <script src="{% static 'public/vendor/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+  <script src="{% static 'public/assets/js/owl-carousel.js'%}"></script>
+  <script src="{% static 'public/assets/js/animation.js'%}"></script>
+  <script src="{% static 'public/assets/js/imagesloaded.js'%}"></script>
+  <script src="{% static 'public/assets/js/popup.js'%}"></script>
+  <script src="{% static 'public/assets/js/custom.js'%}"></script>
+
+</body>
+</html>
+
+{% comment %} {% load static %}
+<!DOCTYPE html>
+<html lang="en" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>تسجيل الدخول</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap" rel="stylesheet" />
+
+    <link href="https://cdn.jsdelivr.net/npm/fastbootstrap@2.2.0/dist/css/fastbootstrap.min.css" rel="stylesheet" integrity="sha256-V6lu+OdYNKTKTsVFBuQsyIlDiRWiOmtC8VQ8Lzdm2i4=" crossorigin="anonymous" />
+    <link href="{% static 'public/css/style.css' %}" rel="stylesheet" />
+    <style>
+      body *:not(i) {
+        font-family: 'Cairo' !important;
+      }
+    </style>
+  </head>
+  <body style="    background-color: #091e42;">
+    <section class="vh-100">
+      <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+          <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+            <div class="card shadow-2-strong" style="border-radius: 1rem;">
+              <div class="card-body p-5">
+                <h3 class="mb-5 text-center">تسجيل الدخول</h3>
+                <div class="text-danger">
+                  {% for message in messages %}
+                    <center><strong>{{ message }}</strong></center>
+                  {% endfor %}
+                </div>
+                <form action="" method="post">
+                  {% csrf_token %}
+                  <div data-mdb-input-init class="form-outline mb-4">
+                    <label class="form-label" for="typeEmailX-2">اسم المستخدم</label>
+                    <input type="text" name="username" id="typeEmailX-2" class="form-control form-control-lg" required />
+                  </div>
+
+                  <div data-mdb-input-init class="form-outline mb-4">
+                    <label class="form-label" for="typePasswordX-2">كلمة المرور</label>
+                    <input type="password" name="password" id="typePasswordX-2" class="form-control form-control-lg" required />
+                  </div>
+                  <button data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg w-100" type="submit">Login</button>
+                </form>
+                <hr class="my-4" />
+                <p style="font-size: 12px;text-align: center;">
+                  
+                    ليس لدي حساب <a href="{% url 'public.singup' %}">انشاء حساب جديد</a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </body>
+</html> {% endcomment %}

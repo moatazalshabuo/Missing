@@ -1,0 +1,239 @@
+{% extends "dashboard/base.html" %}
+{% load static %}
+{% block style %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+crossorigin=""/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+crossorigin=""></script>
+<style>
+  input[type=date]{
+      
+      font-size: 12px;
+      border-radius: 0px;
+      border: 0px;
+      border-bottom: 1px solid #d7004069;
+      color: gray;
+  }
+  .form-check{
+      margin-top: 10px;
+  }
+  .form-check label{
+      font-size: 12px;
+  }
+  .marker-pin {
+      width: 50px;
+      height: 50px;
+      border-radius: 50% 50% 50% 0;
+      background: #D70040;
+      position: absolute;
+      transform: rotate(-45deg);
+      left: 50%;
+      top: 50%;
+      margin: -15px 0 0 -15px;
+    }
+    // to draw white circle
+    .marker-pin::after {
+        content: '';
+        width: 24px;
+        height: 24px;
+        margin: 3px 0 0 3px;
+        background: #fff;
+        position: absolute;
+        border-radius: 50%;
+     }
+    
+    // to align icon
+    .img_i{
+       position: absolute;
+       
+       left: 0;
+       right: 0;
+       margin: 10px auto;
+     
+       z-index: 999;
+       position: absolute;
+       
+       width: 60px;
+       height: 60px;
+       border-radius: 50%;
+       
+    }
+
+      
+.filter1.active{
+  background-image: linear-gradient(90deg, #5674ed, #2dd5fb);
+  color: #fff !important;
+}
+.filter1
+{
+font-size: 13px !important;
+}
+select{
+  border-radius: 20px !important;
+}
+.filters{
+  position: absolute;
+  top: -10px;
+  right: -55px;
+  width: 33%;
+  z-index: 999;
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 1px 1px 3px;
+}
+label{
+  color: #41464b;
+}
+
+</style>
+{% endblock style %}
+{% block content %}
+
+ 
+        <div class="tab-content p-0" id="tab-content" aria-orientation="vertical">
+          <div class="card m-1">
+            <div class="card-header">
+              <h3 class="card-title">خريطة المفقودين</h3>
+            </div>
+            <div class="card-body">
+              <div class="position-relative rounded">
+                <div class="filters">
+      
+                  <ul class="d-flex justify-content-between m-3"  role="tablist">
+                    <div class="border-button">
+                      <a class=" filter1 active" id="vertical-tab-0" data-val="0" data-bs-toggle="tab" href="#vertical-tabpanel-0" role="tab" aria-controls="vertical-tabpanel-0" aria-selected="true">الكل</a>
+                    </div>
+                    <div class="border-button">
+                            <a class=" p-2 filter1" id="vertical-tab-1" data-val="1" data-bs-toggle="tab" href="#vertical-tabpanel-1" role="tab" aria-controls="vertical-tabpanel-1" aria-selected="false">المفقودين</a>
+                    </div>
+                    <div class="border-button">
+                            <a class=" p-2 filter1" id="vertical-tab-2" data-val="2" data-bs-toggle="tab" href="#vertical-tabpanel-2" role="tab" aria-controls="vertical-tabpanel-2" aria-selected="false">المعثور عليهم</a>
+                    </div>
+                  </ul>
+                  <div class="form-group row m-3">
+                    <div class="col">
+                    <label for="from" style="font-size: 13px;">من</label>
+                    <input type="date" class="form-control m-2" id="from" />
+                    </div>
+                    <div class="col">
+                    <label for="to" style="font-size: 13px;">الى</label>
+                    <input type="date" class="form-control m-2" id="to" />
+                    </div>
+                  </div>
+                  <div class="form-group m-3" >
+                    <label style="font-size: 13px;">الفئة العمرية</label>
+                    <select class="form-select filter m-2" style="font-size: 13px;" name="ageRange" id="ageRange">
+                      <option value="">اختيار</option>
+                      <option value="0-6">اقل من 6 سنوات</option>
+                      <option value="6-12">من عمر 12 - 6</option>
+                      <option value="12-17">من عمر 12 - 17</option>
+                      
+                    </select>
+                  </div>
+                
+                </div>
+                <div id="map" style="height: 500px;"></div>
+            </div>
+            </div>
+          </div>
+
+         
+           </div>
+      </div>
+
+  
+{% endblock content %}
+
+{% block script %}
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false" type="text/javascript"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.2/axios.min.js"></script>
+<script>
+  $(function(){
+    var map = L.map('map').setView([32.89605782530956, 13.178557744256981], 11);
+L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+}).addTo(map);
+var markers =[]
+function clean_marker(){
+  markers.forEach(marker => map.removeLayer(marker));
+  markers = [];
+ }
+
+function get_missing(){
+var filter1 = $('.filter1.active').data('val')
+var from_date = $('#from').val()
+var to_date = $('#to').val()
+var curage = $('input[name=ageRange]:checked').val()
+
+clean_marker()
+axios.get('/api/get_missing',{params:{status:filter1,ourage:curage == undefined?-1:curage,from:from_date,to:to_date}}).then((res)=>{
+  var data = res.data.person
+  for(let i of data){
+      var icon = L.divIcon({
+          id:i.id,
+          className: 'custom-div-icon',
+          html: `<div style='background-color:#D70040;' class='marker-pin'></div><img style='
+              position: absolute;
+              left: 5px;
+              margin: 10px auto;
+              z-index: 999;
+              position: absolute;
+              width: 40px;
+              height: 40px;
+              border-radius: 50%;
+                  box-shadow: 1px 2px 8px #323232;
+   ' src='${i.photo}'>`,
+          iconSize: [30, 42],
+          iconAnchor: [15, 42]
+      });
+      
+      var marke = L.marker([i.lat, i.lng], { icon: icon ,}).addTo(map).on('click',(e)=>{
+          var id = e.sourceTarget.options.icon.options.id
+
+          axios.get(`/api/person-data/${id}`).then((res)=>{
+            var person_data = res.data
+            var bith_day = new Date(person_data.birth_date)
+          var year = Math.floor(Math.abs(Date.now() - bith_day.getDate() ) / 1000 * 60 * 60 * 24 * 360)
+          console.log(Date.now(),bith_day.getDate() / 60 * 60 * 24 * 360 )
+            Swal.fire({
+              title: `الاسم : ${person_data.first_name} ${person_data.last_name}`,
+              html: `
+                    <ul class="list-group list-group-flush">
+                      <li class="list-group-item">الجنس : ${person_data.get_gender}</li>
+                      <li class="list-group-item">العمر : ${person_data.get_birt_day} </li>
+                      <li class="list-group-item">اخر مرة شوهد فيها : ${person_data.last_seen_date} </li>
+                      <li class="list-group-item">الحالة : ${ person_data.get_status }</li>
+                    </ul>
+                    `,
+                    confirmButtonText:'اغلاق',
+                    confirmButtonColor:'#D70040',
+                    showDenyButton: true,
+                    denyButtonText:'عرض التفاصيل',
+                    denyButtonColor:'#091e42'
+            }).then((result)=>{
+              if(result.isDenied){
+                location.replace('/details/'+id)
+              }
+            });
+          })
+      });
+      markers.push(marke)
+  }
+})
+}
+get_missing()
+$('.filter1').click(function(){
+$('.filter1').removeClass('active')
+$(this).addClass('active')
+get_missing()
+})
+$('select[name=ageRange] , #from ,#to').change(()=>get_missing())
+})
+</script>
+
+{% endblock script %}
