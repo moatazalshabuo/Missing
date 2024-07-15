@@ -8,8 +8,6 @@ crossorigin=""/>
 integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
 crossorigin=""></script>
 <style>
-   
-    
     .stepwizard-step p {
         margin-top: 10px;
     }
@@ -62,6 +60,9 @@ crossorigin=""></script>
     header{
         top:0px
     }
+    span.text-danger{
+        font-size: 12px;
+    }
 </style>
 
 {% endblock style %}
@@ -108,7 +109,7 @@ crossorigin=""></script>
                                 <div class="col-md-6">
                                     <div class="form-group m-3">
                                         <label for="first_name">الاسم الأول</label>
-                                        <input type="text" class="form-control" required  id="first_name" name="first_name">
+                                        <input type="text" class="form-control" required placeholder="الاسم الاول"  id="first_name" name="first_name">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -124,10 +125,128 @@ crossorigin=""></script>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
+                                    <label for="">المنطقة</label>
+                                    <select class="form-control w-100" required name="Region">
+                                        <option value="" disabled selected>اختيار المنطقة التي فقد فيها </option>
+                                        <option value="أبو ستة">أبو ستة</option>
+                                        <option value="أبو سليم">أبو سليم</option>
+                                        <option value="أبو مشماشة">أبو مشماشة</option>
+                                        <option value="أبو نواس">أبو نواس</option>
+                                        <option value="اسبيعة">اسبيعة</option>
+                                        <option value="الباعيش">الباعيش</option>
+                                        <option value="البيفي">البيفي</option>
+                                        <option value="الجبس">الجبس</option>
+                                        <option value="الجدادعة">الجدادعة</option>
+                                        <option value="الحشان">الحشان</option>
+                                        <option value="الحي الأسلامي">الحي الأسلامي</option>
+                                        <option value="الحي الدبلوماسي">الحي الدبلوماسي</option>
+                                        <option value="الحي الصناعي">الحي الصناعي</option>
+                                        <option value="الخروبة">الخروبة</option>
+                                        <option value="الدريبي">الدريبي</option>
+                                        <option value="الزهراء">الزهراء</option>
+                                        <option value="السبعة">السبعة</option>
+                                        <option value="السدرة">السدرة</option>
+                                        <option value="السراج">السراج</option>
+                                        <option value="السواني">السواني</option>
+                                        <option value="الصريم">الصريم</option>
+                                        <option value="الظهرة">الظهرة</option>
+                                        <option value="العزيب">العزيب</option>
+                                        <option value="العلوص">العلوص</option>
+                                        <option value="العوينية">العوينية</option>
+                                        <option value="الفرناج">الفرناج</option>
+                                        <option value="القاسي">القاسي</option>
+                                        <option value="القره بوللي">القره بوللي</option>
+                                        <option value="القيو">القيو</option>
+                                        <option value="الكرامة">الكرامة</option>
+                                        <option value="الكريمية">الكريمية</option>
+                                        <option value="المدينة السياحية">المدينة السياحية</option>
+                                        <option value="المدينة القديمة">المدينة القديمة</option>
+                                        <option value="المطاويح">المطاويح</option>
+                                        <option value="المقريف">المقريف</option>
+                                        <option value="المنصورة">المنصورة</option>
+                                        <option value="النجيلة">النجيلة</option>
+                                        <option value="النوفليين">النوفليين</option>
+                                        <option value="الهاني">الهاني</option>
+                                        <option value="الهضبة الخضراء">الهضبة الخضراء</option>
+                                        <option value="بئر توته">بئر توته</option>
+                                        <option value="باب العزيزية">باب العزيزية</option>
+                                        <option value="باب بن غشير">باب بن غشير</option>
+                                        <option value="بشير السعداوي">بشير السعداوي</option>
+                                        <option value="بلوزة">بلوزة</option>
+                                        <option value="بن عاشور">بن عاشور</option>
+                                        <option value="بونعيم">بونعيم</option>
+                                        <option value="تاجوراء">تاجوراء</option>
+                                        <option value="جامع صقع">جامع صقع</option>
+                                        <option value="جامعة طرابلس">جامعة طرابلس</option>
+                                        <option value="جزيرة الفحم">جزيرة الفحم</option>
+                                        <option value="جنزور">جنزور</option>
+                                        <option value="حي الانتصار">حي الانتصار</option>
+                                        <option value="حي الأندلس">حي الأندلس</option>
+                                        <option value="حي البطاطا">حي البطاطا</option>
+                                        <option value="حي السلام">حي السلام</option>
+                                        <option value="حي القادسية">حي القادسية</option>
+                                        <option value="حي الكويت">حي الكويت</option>
+                                        <option value="حي دمشق">حي دمشق</option>
+                                        <option value="خلة الفرجان">خلة الفرجان</option>
+                                        <option value="ذات العماد">ذات العماد</option>
+                                        <option value="رأس حسن">رأس حسن</option>
+                                        <option value="زاوية الدهماني">زاوية الدهماني</option>
+                                        <option value="زطارنه">زطارنه</option>
+                                        <option value="زناتة">زناتة</option>
+                                        <option value="سوق الجمعة">سوق الجمعة</option>
+                                        <option value="سوق المشير">سوق المشير</option>
+                                        <option value="سوق خميس">سوق خميس</option>
+                                        <option value="سيدي السائح">سيدي السائح</option>
+                                        <option value="سيدي المصري">سيدي المصري</option>
+                                        <option value="سيدي خليفة">سيدي خليفة</option>
+                                        <option value="شارع الاستقلال">شارع الاستقلال</option>
+                                        <option value="شارع الجماهيرية">شارع الجماهيرية</option>
+                                        <option value="شارع الخلاطات">شارع الخلاطات</option>
+                                        <option value="شارع الزاوية">شارع الزاوية</option>
+                                        <option value="شارع السيدي">شارع السيدي</option>
+                                        <option value="شارع المسيرة الكبرى">شارع المسيرة الكبرى</option>
+                                        <option value="شارع النصر">شارع النصر</option>
+                                        <option value="شارع جرابة">شارع جرابة</option>
+                                        <option value="شارع سليم">شارع سليم</option>
+                                        <option value="شارع شوقي">شارع شوقي</option>
+                                        <option value="شارع عمر المختار">شارع عمر المختار</option>
+                                        <option value="شارع ميزران">شارع ميزران</option>
+                                        <option value="شارع هايتي">شارع هايتي</option>
+                                        <option value="شرفة الملاحة">شرفة الملاحة</option>
+                                        <option value="شيل البوعيشي">شيل البوعيشي</option>
+                                        <option value="صلاح الدين">صلاح الدين</option>
+                                        <option value="طريق الأحياء البرية">طريق الأحياء البرية</option>
+                                        <option value="طريق السور القديم">طريق السور القديم</option>
+                                        <option value="طريق الشوك">طريق الشوك</option>
+                                        <option value="طريق الفلاح">طريق الفلاح</option>
+                                        <option value="طريق المشتل">طريق المشتل</option>
+                                        <option value="طريق المشتل">طريق المشتل</option>
+                                        <option value="طريق المطار">طريق المطار</option>
+                                        <option value="طريق الهضبة الشرقية">طريق الهضبة الشرقية</option>
+                                        <option value="طريق الهضبة طول">طريق الهضبة طول</option>
+                                        <option value="عرادة">عرادة</option>
+                                        <option value="عين زارة">عين زارة</option>
+                                        <option value="غرغور">غرغور</option>
+                                        <option value="غوط أبو ساق">غوط أبو ساق</option>
+                                        <option value="غوط الشعال">غوط الشعال</option>
+                                        <option value="فشلوم">فشلوم</option>
+                                        <option value="قرجي">قرجي</option>
+                                        <option value="قرقارش">قرقارش</option>
+                                        <option value="قصر بن غشير">قصر بن غشير</option>
+                                        <option value="كشلاف">كشلاف</option>
+                                        <option value="معسكر اليرموك">معسكر اليرموك</option>
+                                        <option value="منطقة المزاوغة">منطقة المزاوغة</option>
+                                        <option value="ميدان الجزائر">ميدان الجزائر</option>
+                                        <option value="وادي الربيع">وادي الربيع</option>
+                                    </select>
+                                    <label>اخرى <input type="checkbox" class="other" data-name="Region"></label>
+                                    <input type="hidden" name="Region" id='Region' disabled placeholder="ادخل المنطقة" class="form-control">                            
+                                </div>
+                                <div class="col-md-6">
                                     <div class="form-group m-3">
                                         <label for="gender">الجنس</label>
-                                        <select id="gender" class="form-control" name="gender" required>
-                                            <option value=""></option>
+                                        <select id="gender" class="form-control w-100" name="gender" required>
+                                            <option value="" disabled selected>الجنس</option>
                                             <option value="M">ذكر</option>
                                             <option value="F">أنثى</option>
                                         </select>
@@ -136,13 +255,13 @@ crossorigin=""></script>
                                 <div class="col-md-6">
                                     <div class="form-group m-3">
                                         <label for="height">الطول</label>
-                                        <input type="number" class="form-control" step="0.01" id="height" required name="height">
+                                        <input type="number" placeholder="الطول" class="form-control" step="0.01" id="height" required name="height">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group m-3">
                                         <label for="weight">الوزن</label>
-                                        <input type="number" class="form-control" step="0.01" id="weight" required name="weight">
+                                        <input type="number" placeholder='الوزن' class="form-control" step="0.01" id="weight" required name="weight">
                                     </div>
                                 </div>
                             </div>
@@ -158,7 +277,7 @@ crossorigin=""></script>
                                 <div class="col-md-6">
                                     <div class="form-group m-3">
                                         <label for="hair_color">لون الشعر</label>
-                                        <select id="hair_color" class="form-control" required name="hair_color" >
+                                        <select class="form-control w-100" required name="hair_color" >
                                             <option value="اختيار">اختيار</option>
                                             <option value="أسود">أسود</option>
                                             <option value="بني">بني</option>
@@ -166,12 +285,14 @@ crossorigin=""></script>
                                             <option value="أحمر">أحمر</option>
                                             <option value="أبيض">أبيض</option>
                                         </select>
+                                        <label>اخرى <input type="checkbox" class="other" data-name="hair_color"></label>
+                                    <input type="hidden" name="hair_color" id='hair_color' disabled placeholder="لون الشعر" class="form-control">   
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group m-3">
                                         <label for="eye_color">لون العينين</label>
-                                        <select id="eye_color" class="form-control" required name="eye_color" >
+                                        <select class="form-control" required name="eye_color" >
                                             <option value="اختيار">اختيار</option>
                                             <option value="أسود">أسود</option>
                                             <option value="بني">بني</option>
@@ -179,6 +300,8 @@ crossorigin=""></script>
                                             <option value="أخضر">أخضر</option>
                                             <option value="رمادي">رمادي</option>
                                         </select>
+                                        <label>اخرى <input type="checkbox" class="other" data-name="eye_color"></label>
+                                        <input type="hidden" name="eye_color" id='eye_color' disabled placeholder="لون العيون" class="form-control">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -321,22 +444,46 @@ crossorigin=""></script>
             var curStep = $(this).closest(".setup-content"),
                 curStepBtn = curStep.attr("id"),
                 nextStepWizard = $('div.setup-panel div a[href="#' + curStepBtn + '"]').parent().next().children("a"),
-                curInputs = curStep.find("input"),
+                curInputs = curStep.find("input,select"),
                 isValid = true;
                 console.log(curInputs)
             $(".form-group").removeClass("has-error");
             for(var i=0; i<curInputs.length; i++){
-                if (!curInputs[i].validity.valid){
+                if (!curInputs[i].validity.valid || !curInputs[i].value.trim()){
                     isValid = false;
+                    $(curInputs[i]).closest(".form-group").removeClass("has-error");
                     $(curInputs[i]).closest(".form-group").addClass("has-error");
+                    $(curInputs[i]).next('.text-danger').remove()
+                    $(curInputs[i]).after('<span class="text-danger">هذا الحقل مطلوب</span>');
                 }
             }
     
             if (isValid)
                 nextStepWizard.removeAttr('disabled').trigger('click');
         });
-    
+        $('#select-show').change(function(){
+           
+            if($(this).is(':checked')){
+                $(this).parent().siblings('select')[0].css('display','none').attr('disabled')
+            }
+        })
         $('div.setup-panel div a.btn-primary').trigger('click');
+        $('input').keypress(function(){
+            $(this).next('.text-danger').remove()
+        })
+
+        $('.other').change(function(){
+            if($(this).is(':checked')){
+                $('#'+$(this).data('name')).attr('type','text')
+                $('#'+$(this).data('name')).removeAttr('disabled')
+                $('#'+$(this).data('name')).attr('required')
+            }else{
+                $('#'+$(this).data('name')).attr('type','hidden')
+                $('#'+$(this).data('name')).attr('disabled','disabled')
+                $('#'+$(this).data('name')).removeAttr('required')
+            }
+        })
+        $('form select').select2()
     });
 </script>
 <script>

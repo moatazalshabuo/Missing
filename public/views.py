@@ -65,6 +65,7 @@ def register_mp(request):
             last_seen_date=request.POST['last_seen_date'],
             lat=request.POST['lat'],
             lng=request.POST['lng'],
+            Region=request.POST['Region'],
             health_conditions=request.POST['health_conditions'],
             last_seen_clothing=request.POST['last_seen_clothing']
         )
@@ -185,6 +186,14 @@ def reject_person(request, person_id):
     person = get_object_or_404(MissingPerson, id=person_id)
     person.status = 3  # في انتظار
     person.save()
+    return redirect('/dash/missing_persons/wait')
+
+
+@login_required(login_url='/login')
+def delete_person(request, id):
+    check_if_staff(request)
+    person = get_object_or_404(MissingPerson, id=id)
+    person.delete()
     return redirect('/dash/missing_persons/wait')
 
 @login_required(login_url='/login')

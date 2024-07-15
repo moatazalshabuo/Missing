@@ -65,6 +65,9 @@
                         <a href="{% url 'reject_person' person.id %}" class="btn btn-danger btn-sm" title="رفض">
                             &#10006;
                         </a>
+                        <a href="{% url 'delete.person' person.id %}" class="btn btn-primary btn-sm" title="رفض">
+                            <i class='bx bxs-trash'></i>
+                        </a>
                     </td>
                 </tr>
                 {% endfor %}
@@ -75,4 +78,12 @@
 {% endblock content %}
 
 {% block script %}
+<script>
+    $(function(){
+        $('table').DataTable({
+            dom: 'Bfrtip',
+            buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+        });
+    })
+</script>
 {% endblock script %}
