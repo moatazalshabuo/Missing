@@ -1,5 +1,11 @@
 {% extends "public/base.html" %}
 {% load static %}
+
+
+{% block title %}
+  الرئيسية
+{% endblock title %}
+  
 {% block style %}
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
 integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
@@ -77,7 +83,7 @@ crossorigin=""></script>
 }
 .filter1
 {
-font-size: 13px !important;
+font-size: 14px !important;
 }
 select{
   border-radius: 20px !important;
@@ -100,7 +106,7 @@ label{
 {% endblock style %}
 
 {% block content %}
-<div class="main-banner wow fadeIn" id="top" data-wow-duration="1s" data-wow-delay="0.5s">
+{% comment %} <div class="main-banner wow fadeIn" id="top" data-wow-duration="1s" data-wow-delay="0.5s">
   <div class="container">
     <div class="row">
       <div class="col-lg-12">
@@ -221,7 +227,452 @@ label{
       {% endfor %}
     </div>
   </div>
+</div> {% endcomment %}
+
+
+<!-- Carousel Start -->
+<div class="header-carousel owl-carousel">
+  <div class="header-carousel-item bg-primary">
+      <div class="carousel-caption">
+          <div class="container">
+              <div class="row g-4 align-items-center">
+                  <div class="col-lg-7 animated fadeInLeft">
+                      <div class="text-sm-center text-md-end">
+                          <h4 class="text-white text-uppercase fw-bold mb-4">مرحبا بك معانا</h4>
+                          <h1 class="display-1 text-white mb-4">الاطفال المفقودين</h1>
+                          <p class="mb-5 fs-5">
+                            موقع الأطفال المفقودين هو منصة تهدف إلى مساعدة العائلات في العثور على أطفالهم المفقودين من خلال نشر التفاصيل والصور والمعلومات الضرورية. نسعى لتقديم الدعم والمساعدة بالتعاون مع المجتمع والجهات المختصة.
+                          </p>
+                          <div class="d-flex justify-content-center justify-content-md-start flex-shrink-0 mb-4">
+                              <a class="btn btn-light rounded-pill py-3 px-4 px-md-5 me-2" href="{% url 'public.register_missing_person' %}"><i class="fas fa-play-circle me-2"></i> تقديم بلاغ</a>
+                              <a class="btn btn-dark rounded-pill py-3 px-4 px-md-5 ms-2" href="#">عرض الخريطة</a>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col-lg-5 animated fadeInRight">
+                      <div class="calrousel-img" style="object-fit: cover;">
+                          <img src="{%static 'img/bg2.png' %}" class="img-fluid w-100" alt="">
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="header-carousel-item bg-primary">
+      <div class="carousel-caption">
+          <div class="container">
+              <div class="row gy-4 gy-lg-0 gx-0 gx-lg-5 align-items-center">
+                  <div class="col-lg-5 animated fadeInLeft">
+                      <div class="calrousel-img">
+                          <img src="{%static 'img/bg2.png' %}" class="img-fluid w-100" alt="">
+                      </div>
+                  </div>
+                  <div class="col-lg-7 animated fadeInRight">
+                      <div class="text-sm-center text-md-end">
+                        <h4 class="text-white text-uppercase fw-bold mb-4">مرحبا بك معانا</h4>
+                        <h1 class="display-1 text-white mb-4">الاطفال المفقودين</h1>
+                        <p class="mb-5 fs-5">
+                          موقع الأطفال المفقودين هو منصة تهدف إلى مساعدة العائلات في العثور على أطفالهم المفقودين من خلال نشر التفاصيل والصور والمعلومات الضرورية. نسعى لتقديم الدعم والمساعدة بالتعاون مع المجتمع والجهات المختصة.
+                        </p>
+                        <div class="d-flex justify-content-center justify-content-md-start flex-shrink-0 mb-4">
+                          <a class="btn btn-light rounded-pill py-3 px-4 px-md-5 me-2" href="{% url 'public.register_missing_person' %}"><i class="fas fa-play-circle me-2"></i> تقديم بلاغ</a>
+                          <a class="btn btn-dark rounded-pill py-3 px-4 px-md-5 ms-2" href="#">عرض الخريطة</a>
+                      </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
 </div>
+<!-- Carousel End -->
+
+<!-- Feature Start -->
+<div class="container-fluid feature bg-light py-5">
+  <div class="">
+      <div class="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.2s" style="max-width: 800px;">
+          <h4 class="text-primary">خريطة المفقودين</h4>
+          <h1 class="display-4 mb-4">خريطة المفقودين</h1>
+          <p class="mb-0">
+            ابحث عن أماكن الأطفال المفقودين وتعرف على تفاصيل حالاتهم من خلال هذه الخريطة التفاعلية التي تسهل الوصول إلى المعلومات والمساهمة في العثور عليهم.
+          </p>
+      </div>
+      <div class="row ">
+        <div class="col-lg-12 px-0 mb-5" style="position: relative;">
+          <div class="filters">
+        
+            <ul class="d-flex justify-content-between m-3"  role="tablist">
+              <div class="border-button">
+                <a class=" filter1 active" id="vertical-tab-0" data-val="0" data-bs-toggle="tab" href="#vertical-tabpanel-0" role="tab" aria-controls="vertical-tabpanel-0" aria-selected="true">الكل</a>
+              </div>
+              <div class="border-button">
+                      <a class=" p-2 filter1" id="vertical-tab-1" data-val="1" data-bs-toggle="tab" href="#vertical-tabpanel-1" role="tab" aria-controls="vertical-tabpanel-1" aria-selected="false">المفقودين</a>
+              </div>
+              <div class="border-button">
+                      <a class=" p-2 filter1" id="vertical-tab-2" data-val="2" data-bs-toggle="tab" href="#vertical-tabpanel-2" role="tab" aria-controls="vertical-tabpanel-2" aria-selected="false">المعثور عليهم</a>
+              </div>
+            </ul>
+            <div class="form-group row m-3">
+              <div class="col">
+              <label for="from" style="font-size: 13px;">من</label>
+              <input type="date" class="form-control m-2" id="from" />
+              </div>
+              <div class="col">
+              <label for="to" style="font-size: 13px;">الى</label>
+              <input type="date" class="form-control m-2" id="to" />
+              </div>
+            </div>
+            <div class="form-group m-3" >
+              <label style="font-size: 13px;">الفئة العمرية</label>
+              <select class="form-select filter m-2" style="font-size: 13px;" name="ageRange" id="ageRange">
+                <option value="">اختيار</option>
+                <option value="0-6">اقل من 6 سنوات</option>
+                        <option value="6-12">من عمر 12 - 6</option>
+                        <option value="12-17">من عمر 12 - 17</option>
+              </select>
+            </div>
+           
+           
+          </div>
+          <div id="map" style="min-height: 600px;"></div>
+        </div>
+      </div>
+  </div>
+</div>
+<!-- Feature End -->
+
+<!-- About Start -->
+<!-- About Start -->
+<div class="container-fluid bg-light about pb-5">
+  <div class="container pb-5">
+      <div class="row g-5">
+          <div class="col-xl-6 wow fadeInLeft" data-wow-delay="0.2s">
+              <div class="about-item-content bg-white rounded p-5 h-100">
+                  <h4 class="text-primary">حول موقعنا</h4>
+                  <h1 class="display-4 mb-4">مساعدة في العثور على الأطفال المفقودين</h1>
+                  <p>نهدف إلى توفير منصة شاملة لمساعدة العائلات في العثور على أطفالهم المفقودين من خلال نشر التفاصيل والصور والمعلومات الضرورية.</p>
+                  <p>نحن نعمل بالتعاون مع المجتمع والجهات المختصة لضمان تقديم الدعم والمساعدة بأسرع وقت ممكن.</p>
+                  <p class="text-dark"><i class="fa fa-check text-primary me-3"></i>إمكانية الوصول إلى معلومات دقيقة وشاملة.</p>
+                  <p class="text-dark"><i class="fa fa-check text-primary me-3"></i>التعاون مع الجهات المختصة والمجتمع.</p>
+                  <p class="text-dark mb-4"><i class="fa fa-check text-primary me-3"></i>تقديم الدعم النفسي والعاطفي للأسر.</p>
+                  <a class="btn btn-primary rounded-pill py-3 px-5" href="#">مزيد من المعلومات</a>
+              </div>
+          </div>
+          <div class="col-xl-6 wow fadeInRight" data-wow-delay="0.2s">
+              <div class="bg-white rounded p-5 h-100">
+                  <div class="row g-4 justify-content-center">
+                      <div class="col-12">
+                          <div class="rounded bg-light">
+                              <img src="{% static 'img/about-1.png' %}" class="img-fluid rounded w-100" alt="About Image">
+                          </div>
+                      </div>
+                      <div class="col-sm-6">
+                          <div class="counter-item bg-light rounded p-3 h-100">
+                              <div class="counter-counting">
+                                  <span class="text-primary fs-2 fw-bold" data-toggle="counter-up">129</span>
+                                  <span class="h1 fw-bold text-primary">+</span>
+                              </div>
+                              <h4 class="mb-0 text-dark">عدد الاطفال المفقودين</h4>
+                          </div>
+                      </div>
+                      <div class="col-sm-6">
+                          <div class="counter-item bg-light rounded p-3 h-100">
+                              <div class="counter-counting">
+                                  <span class="text-primary fs-2 fw-bold" data-toggle="counter-up">99</span>
+                                  <span class="h1 fw-bold text-primary">+</span>
+                              </div>
+                              <h4 class="mb-0 text-dark">عدد الاطفال المعثور عليهم</h4>
+                          </div>
+                      </div>
+                      <div class="col-sm-6">
+                          <div class="counter-item bg-light rounded p-3 h-100">
+                              <div class="counter-counting">
+                                  <span class="text-primary fs-2 fw-bold" data-toggle="counter-up">556</span>
+                                  <span class="h1 fw-bold text-primary">+</span>
+                              </div>
+                              <h4 class="mb-0 text-dark">عدد البلاغات</h4>
+                          </div>
+                      </div>
+                      <div class="col-sm-6">
+                          <div class="counter-item bg-light rounded p-3 h-100">
+                              <div class="counter-counting">
+                                  <span class="text-primary fs-2 fw-bold" data-toggle="counter-up">967</span>
+                                  <span class="h1 fw-bold text-primary">+</span>
+                              </div>
+                              <h4 class="mb-0 text-dark">عدد المعلومات المقدمة من المستخدمين</h4>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+<!-- About End -->
+
+
+<!-- Blog Start -->
+<div class="container-fluid blog py-5">
+  <div class="container py-5">
+      <div class="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.2s" style="max-width: 800px;">
+          <h4 class="text-primary">نصائح توعية</h4>
+          <h1 class="display-4 mb-4">سلامة الأطفال</h1>
+          <p class="mb-0">جمعنا مجموعة من الطرق والوسائل للحفاظ على طفلك من الضياع أو الخطف عند وجوده بالخارج.</p>
+      </div>
+      <div class="row g-4 justify-content-center">
+          <div class="col-lg-6 col-xl-4 wow fadeInUp" data-wow-delay="0.2s">
+              <div class="blog-item">
+                  <div class="blog-img">
+                      <img src="{% static 'public/hh/girl-with-toy-camera.png' %}" class="img-fluid rounded-top w-100" alt="تصوير الطفل">
+                      <div class="blog-categiry py-2 px-4">
+                          <span>نصيحة</span>
+                      </div>
+                  </div>
+                  <div class="blog-content p-4">
+                      <a href="#" class="h4 d-inline-block mb-3">تصوير الطفل قبل الذهاب إلى أماكن مزدحمة.</a>
+                      <p class="mb-3">استخدام الصورة الفعلية لملامح الطفل وملابسه التي كان يرتديها لتسهيل البحث عليه في حال فقدانه.</p>
+                  </div>
+              </div>
+          </div>
+          <div class="col-lg-6 col-xl-4 wow fadeInUp" data-wow-delay="0.4s">
+              <div class="blog-item">
+                  <div class="blog-img">
+                      <img src="{% static 'public/hh/little-kid-playing-with-mobile.jpg' %}" class="img-fluid rounded-top w-100" alt="استخدام الأجهزة الذكية">
+                      <div class="blog-categiry py-2 px-4">
+                          <span>نصيحة</span>
+                      </div>
+                  </div>
+                  <div class="blog-content p-4">
+                      <a href="#" class="h4 d-inline-block mb-3">استخدام أجهزة التتبع</a>
+                      <p class="mb-3">تساعد التكنولوجيا الحديثة الآباء والأمهات على حماية أطفالهم عند تواجدهم في أماكن بعيدة باستخدام أجهزة التتبع الجغرافي (GPS) المتوفرة في الساعات الذكية والأجهزة اللوحية والهواتف.</p>
+                  </div>
+              </div>
+          </div>
+          <div class="col-lg-6 col-xl-4 wow fadeInUp" data-wow-delay="0.6s">
+              <div class="blog-item">
+                  <div class="blog-img">
+                      <img src="{% static 'public/hh/hand-drawn-kawaii-character-business-card-template.png' %}" class="img-fluid rounded-top w-100" alt="بطاقة تعريفية">
+                      <div class="blog-categiry py-2 px-4">
+                          <span>نصيحة</span>
+                      </div>
+                  </div>
+                  <div class="blog-content p-4">
+                      <a href="#" class="h4 d-inline-block mb-3">إنشاء بطاقة تعريفية للأطفال الصغار.</a>
+                      <p class="mb-3">تزويد الطفل ببطاقة تعريفية تحتوي على اسمه ورقم الهاتف الخاص بالعائلة لسهولة التواصل في حال ضياعه.</p>
+                  </div>
+              </div>
+          </div>
+          
+          <div class="col-12 text-center wow fadeInUp" data-wow-delay="0.2s">
+              <a class="btn btn-primary rounded-pill py-3 px-5" href="#">المزيد من النصائح</a>
+          </div>
+      </div>
+  </div>
+</div>
+<!-- Blog End -->
+
+
+<!-- FAQs Start -->
+<!-- FAQs Start -->
+<div class="container-fluid faq-section bg-light py-5">
+  <div class="container py-5">
+      <div class="row g-5 align-items-center">
+          <div class="col-xl-6 wow fadeInLeft" data-wow-delay="0.2s">
+              <div class="h-100">
+                  <div class="mb-5">
+                      <h4 class="text-primary">بعض الأسئلة الشائعة</h4>
+                      <h1 class="display-4 mb-0">أسئلة متكررة حول سلامة الأطفال</h1>
+                  </div>
+                  <div class="accordion" id="accordionExample">
+                      <div class="accordion-item">
+                          <h2 class="accordion-header" id="headingOne">
+                              <button class="accordion-button border-0" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                  س: ماذا أفعل إذا ضاع طفلي؟
+                              </button>
+                          </h2>
+                          <div id="collapseOne" class="accordion-collapse collapse show active" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                              <div class="accordion-body rounded">
+                                  ج: في حال فقدان طفلك، حافظ على هدوئك واتصل بالشرطة فورًا. قدم لهم صورة حديثة للطفل ووصفًا دقيقًا لما كان يرتديه. احرص على البحث في المنطقة المحيطة واطلب المساعدة من الآخرين.
+                              </div>
+                          </div>
+                      </div>
+                      <div class="accordion-item">
+                          <h2 class="accordion-header" id="headingTwo">
+                              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                  س: كيف يمكنني تعليم طفلي البقاء في أمان؟
+                              </button>
+                          </h2>
+                          <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                              <div class="accordion-body">
+                                  ج: علم طفلك عدم التحدث مع الغرباء وعدم الابتعاد عنك في الأماكن العامة. تأكد من أن يعرف اسمه الكامل ورقم هاتف العائلة وعنوان المنزل. استخدم وسائل تعريفية مثل الأساور التي تحتوي على رقم الهاتف.
+                              </div>
+                          </div>
+                      </div>
+                      <div class="accordion-item">
+                          <h2 class="accordion-header" id="headingThree">
+                              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                  س: هل يجب استخدام أجهزة التتبع للأطفال؟
+                              </button>
+                          </h2>
+                          <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                              <div class="accordion-body">
+                                  ج: نعم، يمكن أن تكون أجهزة التتبع (GPS) مفيدة جدًا في مراقبة مواقع الأطفال في الأماكن العامة والمزدحمة. يمكن استخدامها في الساعات الذكية والأجهزة اللوحية أو الأحزمة الذكية التي ترسل تنبيهات عند تجاوز الطفل منطقة محددة.
+                              </div>
+                          </div>
+                      </div>
+                      <div class="accordion-item">
+                          <h2 class="accordion-header" id="headingFour">
+                              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                  س: كيف يمكنني تعزيز وعي طفلي حول السلامة؟
+                              </button>
+                          </h2>
+                          <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
+                              <div class="accordion-body">
+                                  ج: خصص وقتًا دوريًا للتحدث مع طفلك حول أهمية البقاء آمنًا وكيفية التصرف في حالات الطوارئ. اجعل التدريبات العملية جزءًا من روتينك العائلي لضمان استعداد الجميع لأي طارئ.
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="col-xl-6 wow fadeInRight" data-wow-delay="0.4s">
+              <img src="{% static 'img/carousel-2.png' %}" class="img-fluid w-100" alt="">
+          </div>
+      </div>
+  </div>
+</div>
+<!-- FAQs End -->
+
+<!-- FAQs End -->
+
+
+<!-- Team Start -->
+<div class="container-fluid team pb-5 py-5">
+  <div class="container pb-5">
+      <div class="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.2s" style="max-width: 800px;">
+          <h4 class="text-primary">آخر المفقودين</h4>
+          <h1 class="display-4 mb-4">تعرف على الأشخاص المفقودين</h1>
+          <p class="mb-0">إذا كنت تعرف أي معلومات عن هؤلاء الأشخاص، يرجى الاتصال بنا على الفور للمساعدة في العثور عليهم وإعادتهم إلى عائلاتهم.
+          </p>
+      </div>
+      <div class="row g-4">
+          {% for val in person %}
+              <div class="col-md-6 col-lg-6 col-xl-3 wow fadeInUp" data-wow-delay="0.2s">
+                  <div class="team-item">
+                      <div class="team-img">
+                          <img src="{{ val.photo.url }}" class="img-fluid rounded-top w-100" alt="">
+                          <div class="team-icon">
+                              <a class="btn btn-primary btn-sm-square rounded-pill mb-2" href=""><i class="fab fa-facebook-f"></i></a>
+                              <a class="btn btn-primary btn-sm-square rounded-pill mb-2" href=""><i class="fab fa-twitter"></i></a>
+                              
+                          </div>
+                      </div>
+                      <div class="team-title p-4">
+                          <h4 class="mb-0">{{ val.first_name }} {{ val.last_name }}</h4>
+                          <p class="mb-0">العمر: {{ val.get_birt_day }}</p>
+                          <p class="mb-0">اخر مرة شوهد فيها: {{ val.last_seen_date }}</p>
+                          <div class="m-2">
+                            <a class="btn btn-dark" href="{% url 'public.details' val.id %}">التفاصيل <i class="fa fa-arrow-right"></i></a>
+                        </div>
+                      </div>
+                      
+                  </div>
+              </div>
+          {% endfor %}
+      </div>
+  </div>
+</div>
+
+<!-- Team End -->
+
+{% comment %} 
+  <!-- Testimonial Start -->
+    <div class="container-fluid testimonial pb-5">
+      <div class="container pb-5">
+          <div class="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.2s" style="max-width: 800px;">
+              <h4 class="text-primary">Testimonial</h4>
+              <h1 class="display-4 mb-4">What Our Customers Are Saying</h1>
+              <p class="mb-0">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Tenetur adipisci facilis cupiditate recusandae aperiam temporibus corporis itaque quis facere, numquam, ad culpa deserunt sint dolorem autem obcaecati, ipsam mollitia hic.
+              </p>
+          </div>
+          <div class="owl-carousel testimonial-carousel wow fadeInUp" data-wow-delay="0.2s">
+              <div class="testimonial-item bg-light rounded">
+                  <div class="row g-0">
+                      <div class="col-4  col-lg-4 col-xl-3">
+                          <div class="h-100">
+                              <img src="img/testimonial-1.jpg" class="img-fluid h-100 rounded" style="object-fit: cover;" alt="">
+                          </div>
+                      </div>
+                      <div class="col-8 col-lg-8 col-xl-9">
+                          <div class="d-flex flex-column my-auto text-start p-4">
+                              <h4 class="text-dark mb-0">Client Name</h4>
+                              <p class="mb-3">Profession</p>
+                              <div class="d-flex text-primary mb-3">
+                                  <i class="fas fa-star"></i>
+                                  <i class="fas fa-star"></i>
+                                  <i class="fas fa-star"></i>
+                                  <i class="fas fa-star"></i>
+                                  <i class="fas fa-star"></i>
+                              </div>
+                              <p class="mb-0">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Enim error molestiae aut modi corrupti fugit eaque rem nulla incidunt temporibus quisquam,
+                              </p>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <div class="testimonial-item bg-light rounded">
+                  <div class="row g-0">
+                      <div class="col-4  col-lg-4 col-xl-3">
+                          <div class="h-100">
+                              <img src="img/testimonial-2.jpg" class="img-fluid h-100 rounded" style="object-fit: cover;" alt="">
+                          </div>
+                      </div>
+                      <div class="col-8 col-lg-8 col-xl-9">
+                          <div class="d-flex flex-column my-auto text-start p-4">
+                              <h4 class="text-dark mb-0">Client Name</h4>
+                              <p class="mb-3">Profession</p>
+                              <div class="d-flex text-primary mb-3">
+                                  <i class="fas fa-star"></i>
+                                  <i class="fas fa-star"></i>
+                                  <i class="fas fa-star"></i>
+                                  <i class="fas fa-star"></i>
+                                  <i class="fas fa-star text-body"></i>
+                              </div>
+                              <p class="mb-0">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Enim error molestiae aut modi corrupti fugit eaque rem nulla incidunt temporibus quisquam,
+                              </p>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <div class="testimonial-item bg-light rounded">
+                  <div class="row g-0">
+                      <div class="col-4  col-lg-4 col-xl-3">
+                          <div class="h-100">
+                              <img src="img/testimonial-3.jpg" class="img-fluid h-100 rounded" style="object-fit: cover;" alt="">
+                          </div>
+                      </div>
+                      <div class="col-8 col-lg-8 col-xl-9">
+                          <div class="d-flex flex-column my-auto text-start p-4">
+                              <h4 class="text-dark mb-0">Client Name</h4>
+                              <p class="mb-3">Profession</p>
+                              <div class="d-flex text-primary mb-3">
+                                  <i class="fas fa-star"></i>
+                                  <i class="fas fa-star"></i>
+                                  <i class="fas fa-star"></i>
+                                  <i class="fas fa-star text-body"></i>
+                                  <i class="fas fa-star text-body"></i>
+                              </div>
+                              <p class="mb-0">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Enim error molestiae aut modi corrupti fugit eaque rem nulla incidunt temporibus quisquam,
+                              </p>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+    </div>
+  <!-- Testimonial End --> 
+{% endcomment %}
 {% endblock content %}
 
 {% block script %}

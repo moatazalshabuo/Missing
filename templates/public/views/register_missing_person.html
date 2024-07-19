@@ -1,5 +1,10 @@
 {% extends "public/base.html" %}
 {% load static %}
+
+{% block title %}
+    تسجيل البلاغ
+{% endblock title %}
+    
 {% block style %}
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
 integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
@@ -7,6 +12,7 @@ crossorigin=""/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
 integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
 crossorigin=""></script>
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <style>
     .stepwizard-step p {
         margin-top: 10px;
@@ -64,19 +70,27 @@ crossorigin=""></script>
         font-size: 12px;
     }
 </style>
-
 {% endblock style %}
 
 {% block content %}
+<div class="container-fluid bg-breadcrumb">
+    <div class="container text-center py-5" style="max-width: 900px;">
+        <h4 class="text-white display-4 mb-4 wow fadeInDown" data-wow-delay="0.1s" style="visibility: visible; animation-delay: 0.1s; animation-name: fadeInDown;">تسجيل بلاغ</h4>
+        <ol class="breadcrumb d-flex justify-content-center mb-0 wow fadeInDown" data-wow-delay="0.3s" style="visibility: visible; animation-delay: 0.3s; animation-name: fadeInDown;">
+            <li class="breadcrumb-item"><a href="index.html">الرئيسية</a>\</li> 
+            <li class="breadcrumb-item active text-primary"><a href="#">تسجيل بلاغ</a></li>
+        </ol>    
+    </div>
+</div>
 <div id="clients" class="the-clients">
     <div class="container">
       <div class="row">
-        <div class="col-lg-12">
-          <div class="section-heading w-75 mx-auto">
-            <h4>بلاغ عن <em>مفقود</em></h4>
-            <img src="{% static 'public/assets/images/heading-line-dec.png' %}" alt="">
+        <div class=" mt-5 col-md-12 text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.2s" style="max-width: 800px;">
             
-          </div>
+            
+            <p class="mb-0">
+                <p>إذا كنت ترغب في تسجيل بلاغ عن طفل مفقود، يرجى ملء النموذج أدناه وتقديم أكبر قدر ممكن من المعلومات.</p>
+            </p>
         </div>
         <div class="col-md-12 mb-4">
             <div class="stepwizard">
@@ -417,6 +431,8 @@ crossorigin=""></script>
 {% endblock content %}
 
 {% block script %}
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
 <script>
     $(document).ready(function () {
 
@@ -444,7 +460,7 @@ crossorigin=""></script>
             var curStep = $(this).closest(".setup-content"),
                 curStepBtn = curStep.attr("id"),
                 nextStepWizard = $('div.setup-panel div a[href="#' + curStepBtn + '"]').parent().next().children("a"),
-                curInputs = curStep.find("input,select"),
+                curInputs = curStep.find("input:not([type='checkbox'],[type='hidden']),select"),
                 isValid = true;
                 console.log(curInputs)
             $(".form-group").removeClass("has-error");

@@ -253,7 +253,6 @@ def get_initial_data():
             age_groups[age_group] += 1
     missing_person = MissingPerson.objects.filter(status='1')
     found_person = MissingPerson.objects.filter(status='2')
-    print(report_missing)
     data = {
         'missing': {
             'regions': [item['Region'] for item in report_missing],

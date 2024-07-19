@@ -52,286 +52,67 @@ crossorigin=""></script>
 {% endblock style %}
 
 {% block content %}
-<div id="clients" class="the-clients">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-12">
-          <div class="section-heading w-75 mx-auto">
-            <h4>تفاصيل <em>حول</em> المفقود</h4>
-            <img src="assets/images/heading-line-dec.png" alt="">
-            <p>
-                يقدم هذا القسم معلومات شاملة حول الشخص المفقود، بما في ذلك الوصف الشخصي، آخر مكان تم رؤيته فيه، وأي تفاصيل إضافية قد تساعد في العثور عليه.
-            </p>
-          </div>
-        </div>
-        <div class="col-lg-12">
-          <div class="naccs">
-            <div class="grid">
-              <div class="row">
-                <div class="col-lg-7">
-                    <ul class="nacc">
-                      <li class="active">
-                        <div>
-                          <div class="thumb">
-                            <div class="row">
-                              <div class="col-lg-12">
-                                  <div class="down-content">
-                                      <img src="{{ person.photo.url }}" alt="">
-                                      <div class="right-content">
-                                          <h4>الاسم كامل</h4>
-                                          <span>{{ person.first_name }} {{ person.last_name }}</span>
-                                      </div>
-                                      <div class="gradient-button" style="float: left;">
-                                        <a href="{% url 'public.report' person.id %}">اضافة معلومات</a>
-                                      </div>
-                                  </div>
-                                <div >
-                                    <div class="position-relative rounded overflow-hidden mt-3 mb-3">
-                                        <div id="map" style="height: 400px;"></div>
-                                    </div>
-                                    <div class="d-flex justify-content-between">
-                                      <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" target="_blank">
-                                        <i class="fab fa-facebook"></i> مشاركة على فيسبوك
-                                      </a>
-                                      <a href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri }}&text=تحقق من هذا المنشور" target="_blank">
-                                        <i class="fab fa-twitter"></i> مشاركة على تويتر
-                                      </a>
-                                            {% comment %} <a href="#" class="text-dark link-hover me-3"><i class="fa fa-clock"></i> 06 minute read</a>
-                                            <a href="#" class="text-dark link-hover me-3"><i class="fa fa-eye"></i> 3.5k Views</a>
-                                            <a href="#" class="text-dark link-hover me-3"><i class="fa fa-comment-dots"></i> 05 Comment</a>
-                                            <a href="#" class="text-dark link-hover"><i class="fa fa-arrow-up"></i> 1.5k Share</a> {% endcomment %}
-                                    </div> 
-                                 </div>
-                                
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </li>
-                      {% comment %} <li>
-                        <div>
-                          <div class="thumb">
-                            <div class="row">
-                              <div class="col-lg-12">
-                                <div class="client-content">
-                                  <img src="assets/images/quote.png" alt="">
-                                  <p>“CTO, Lorem ipsum dolor sit amet, consectetur adpiscing elit, sed do eismod tempor idunte ut labore et dolore magna aliqua darwin kengan
-                                    lorem ipsum dolor sit amet, consectetur picing elit massive big blasta.”</p>
-                                </div>
-                                <div class="down-content">
-                                  <img src="assets/images/client-image.jpg" alt="">
-                                  <div class="right-content">
-                                    <h4>Jake H. Nyo</h4>
-                                    <span>CTO of Digital Company</span>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </li> {% endcomment %}
-                      {% comment %} <li>
-                        <div>
-                          <div class="thumb">
-                            <div class="row">
-                              <div class="col-lg-12">
-                                <div class="client-content">
-                                  <img src="assets/images/quote.png" alt="">
-                                  <p>“May, Lorem ipsum dolor sit amet, consectetur adpiscing elit, sed do eismod tempor idunte ut labore et dolore magna aliqua darwin kengan
-                                    lorem ipsum dolor sit amet, consectetur picing elit massive big blasta.”</p>
-                                </div>
-                                <div class="down-content">
-                                  <img src="assets/images/client-image.jpg" alt="">
-                                  <div class="right-content">
-                                    <h4>May C.</h4>
-                                    <span>Founder of Catherina Co.</span>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </li>
-                      <li>
-                        <div>
-                          <div class="thumb">
-                            <div class="row">
-                              <div class="col-lg-12">
-                                <div class="client-content">
-                                  <img src="assets/images/quote.png" alt="">
-                                  <p>“Lorem ipsum dolor sit amet, consectetur adpiscing elit, sed do eismod tempor idunte ut labore et dolore magna aliqua darwin kengan
-                                    lorem ipsum dolor sit amet, consectetur picing elit massive big blasta.”</p>
-                                </div>
-                                <div class="down-content">
-                                  <img src="assets/images/client-image.jpg" alt="">
-                                  <div class="right-content">
-                                    <h4>Random Staff</h4>
-                                    <span>Manager, Digital Company</span>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </li>
-                      <li>
-                        <div>
-                          <div class="thumb">
-                            <div class="row">
-                              <div class="col-lg-12">
-                                <div class="client-content">
-                                  <img src="assets/images/quote.png" alt="">
-                                  <p>“Mark, Lorem ipsum dolor sit amet, consectetur adpiscing elit, sed do eismod tempor idunte ut labore et dolore magna aliqua darwin kengan
-                                    lorem ipsum dolor sit amet, consectetur picing elit massive big blasta.”</p>
-                                </div>
-                                <div class="down-content">
-                                  <img src="assets/images/client-image.jpg" alt="">
-                                  <div class="right-content">
-                                    <h4>Mark Am</h4>
-                                    <span>CTO, Amber Do Company</span>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </li>  {% endcomment %}
-                    </ul>
-                  </div>  
-                <div class="col-lg-5 align-self-center" style="position: relative;z-index: 1;">
-                  <div class="menu">
-                        <div class="first-thumb active">
-                        <div class="thumb">
-                            <div class="row">
-                            <div class="col-lg-4 col-sm-4 col-12">
-                                <h4>تاريخ الميلاد والعمر</h4>
-                            </div>
-                            <div class="col-lg-4 col-sm-4 d-none d-sm-block">
-                                <span class="category">{{ person.birth_date }} / {{ person.get_birt_day }}</span>
-                            </div>
-                            </div>
-                        </div>
-                        </div>
 
-                        <div class="thumb active">
-                        <div class="row">
-                            <div class="col-lg-4 col-sm-4 col-12">
-                            <h4>الجنس</h4>
-                            </div>
-                            <div class="col-lg-4 col-sm-4 d-none d-sm-block">
-                            <span class="category">{{ person.get_gender }}</span>
-                            </div>
-                        </div>
-                        </div>
-
-                        <div class="thumb active">
-                        <div class="row">
-                            <div class="col-lg-4 col-sm-4 col-12">
-                            <h4>الطول والوزن</h4>
-                            </div>
-                            <div class="col-lg-4 col-sm-4 d-none d-sm-block">
-                            <span class="category">{{ person.height }} سم / {{ person.weight }} كجم</span>
-                            </div>
-                        </div>
-                        </div>
-
-                        <div class="thumb active">
-                        <div class="row">
-                            <div class="col-lg-4 col-sm-4 col-12">
-                            <h4>لون الشعر</h4>
-                            </div>
-                            <div class="col-lg-4 col-sm-4 d-none d-sm-block">
-                            <span class="category">{{ person.hair_color }}</span>
-                            </div>
-                        </div>
-                        </div>
-
-                        <div class="thumb active">
-                        <div class="row">
-                            <div class="col-lg-4 col-sm-4 col-12">
-                            <h4>لون العينين</h4>
-                            </div>
-                            <div class="col-lg-4 col-sm-4 d-none d-sm-block">
-                            <span class="category">{{ person.eye_color }}</span>
-                            </div>
-                        </div>
-                        </div>
-
-                        <div class="thumb active">
-                        <div class="row">
-                            <div class="col-lg-4 col-sm-4 col-12">
-                            <h4>علامات مميزة</h4>
-                            </div>
-                            <div class="col-lg-4 col-sm-4 d-none d-sm-block">
-                            <span class="category">{{ person.distinguishing_marks }}</span>
-                            </div>
-                        </div>
-                        </div>
-
-                        <div class="thumb active">
-                        <div class="row">
-                            <div class="col-lg-4 col-sm-4 col-12">
-                            <h4>تاريخ آخر مرة شوهد فيها</h4>
-                            </div>
-                            <div class="col-lg-4 col-sm-4 d-none d-sm-block">
-                            <span class="category">{{ person.last_seen_date }}</span>
-                            </div>
-                        </div>
-                        </div>
-
-                        <div class="thumb active">
-                        <div class="row">
-                            <div class="col-lg-4 col-sm-4 col-12">
-                            <h4>الحالة الصحية</h4>
-                            </div>
-                            <div class="col-lg-4 col-sm-4 d-none d-sm-block">
-                            <span class="category">{{ person.health_conditions }}</span>
-                            </div>
-                        </div>
-                        </div>
-
-                        <div class="thumb active">
-                        <div class="row">
-                            <div class="col-lg-4 col-sm-4 col-12">
-                            <h4>الملابس عند الاختفاء</h4>
-                            </div>
-                            <div class="col-lg-4 col-sm-4 d-none d-sm-block">
-                            <span class="category">{{ person.last_seen_clothing }}</span>
-                            </div>
-                        </div>
-                        </div>
-
-                        <div class="thumb active">
-                        <div class="row">
-                            <div class="col-lg-4 col-sm-4 col-12">
-                            <h4>الحالة</h4>
-                            </div>
-                            <div class="col-lg-4 col-sm-4 d-none d-sm-block">
-                            <span class="category">{{ person.get_status }}</span>
-                            </div>
-                        </div>
-                        </div>
-
-                        <div class="last-thumb active">
-                        <div class="row">
-                            <div class="col-lg-4 col-sm-4 col-12">
-                            <h4>تاريخ الإبلاغ</h4>
-                            </div>
-                            <div class="col-lg-4 col-sm-4 d-none d-sm-block">
-                            <span class="category">{{ person.created_at }}</span>
-                            </div>
-                        </div>
-                        </div>
-
+<div class="container-fluid bg-light about py-5">
+  <div class="container py-5">
+      <div class="row g-5">
+        
+          <div class="col-xl-5 wow fadeInLeft" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInLeft;">
+              <div class="about-item-content bg-white rounded p-5 h-100">
+                <div class="col-12">
+                  <div class="rounded bg-light">
+                      <img  src="{{ person.photo.url }}" class="img-fluid rounded w-100" alt="">
                   </div>
-                </div> 
-                        
+                </div>
+                  <h4 class="text-primary">About Our Company</h4>
+                  <h1 class="display-4 mb-4">{{ person.first_name }} {{ person.last_name }}</h1>
+
+                  <p><i class="fa fa-check text-primary me-3"></i>تاريخ الميلاد: {{ person.birth_date }}</p>
+                  <p><i class="fa fa-check text-primary me-3"></i>الجنس: {{ person.get_gender }}</p>
+                  <p><i class="fa fa-check text-primary me-3"></i>الطول: {{ person.height }} سم</p>
+                  <p><i class="fa fa-check text-primary me-3"></i>الوزن: {{ person.weight }} كجم</p>
+                  <p><i class="fa fa-check text-primary me-3"></i>لون الشعر: {{ person.hair_color }}</p>
+                  <p><i class="fa fa-check text-primary me-3"></i>لون العينين: {{ person.eye_color }}</p>
+                  <p><i class="fa fa-check text-primary me-3"></i>علامات مميزة: {{ person.distinguishing_marks }}</p>
+                  <p><i class="fa fa-check text-primary me-3"></i>تاريخ آخر مرة شوهد فيها: {{ person.last_seen_date }}</p>
+                  <p><i class="fa fa-check text-primary me-3"></i>المنطقة: {{ person.Region }}</p>
+                  <p><i class="fa fa-check text-primary me-3"></i>الحالة الصحية: {{ person.health_conditions }}</p>
+                  <p><i class="fa fa-check text-primary me-3"></i>الملابس عند الاختفاء: {{ person.last_seen_clothing }}</p>
+                  <p><i class="fa fa-check text-primary me-3"></i>الحالة: {{ person.get_status }}</p>
+                  <p><i class="fa fa-check text-primary me-3"></i>تاريخ الإبلاغ: {{ person.created_at }}</p>
+                  
               </div>
-            </div>
           </div>
-        </div>
+          <div class="col-xl-7 wow fadeInRight" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInRight;">
+              <div class="bg-white rounded p-5 h-100">
+                  <div class="row g-4 justify-content-center">
+                      
+                      <div class="col-sm-12">
+                          <div class="counter-item bg-light rounded p-3 h-100">
+                            <div class="position-relative rounded overflow-hidden mt-3 mb-3">
+                              <div id="map" style="height: 400px;"></div>
+                          </div>
+                          <div class="d-flex justify-content-between">
+                            <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" target="_blank">
+                              <i class="fab fa-facebook"></i> مشاركة على فيسبوك
+                            </a>
+                            <a href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri }}&text=تحقق من هذا المنشور" target="_blank">
+                              <i class="fab fa-twitter"></i> مشاركة على تويتر
+                            </a>
+                                  {% comment %} <a href="#" class="text-dark link-hover me-3"><i class="fa fa-clock"></i> 06 minute read</a>
+                                  <a href="#" class="text-dark link-hover me-3"><i class="fa fa-eye"></i> 3.5k Views</a>
+                                  <a href="#" class="text-dark link-hover me-3"><i class="fa fa-comment-dots"></i> 05 Comment</a>
+                                  <a href="#" class="text-dark link-hover"><i class="fa fa-arrow-up"></i> 1.5k Share</a> {% endcomment %}
+                          </div> 
+                          <a class="btn btn-primary rounded-pill py-3 px-5" href="{% url 'public.report' person.id %}">اضافة معلومات</a>
+                          </div>
+                      </div>
+                      
+                  </div>
+              </div>
+          </div>
       </div>
-    </div>
+  </div>
 </div>
 {% endblock content %}
 

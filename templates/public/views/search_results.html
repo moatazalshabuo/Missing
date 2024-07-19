@@ -10,38 +10,38 @@
 
 {% block content %}
 
-<div id="services" class="services section">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-8 offset-lg-2">
-          <div class="section-heading  wow fadeInDown animated" data-wow-duration="1s" data-wow-delay="0.5s" style="visibility: visible; -webkit-animation-duration: 1s; -moz-animation-duration: 1s; animation-duration: 1s; -webkit-animation-delay: 0.5s; -moz-animation-delay: 0.5s; animation-delay: 0.5s;">
-            <h4>نتائج <em>البحث</em></h4>
-            <img src="assets/images/heading-line-dec.png" alt="">
-            <p>يقدم هذا القسم نتائج البحث عن البلاغات في الموقع</p>
-          </div>
-        </div>
-      </div>
+<div class="container-fluid team pb-5 py-5">
+  <div class="container pb-5">
+    <div class="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.2s" style="max-width: 800px;">
+      <h1 class="display-4 mb-4">نتائج البحث</h1>
     </div>
-    <div class="container">
-      <div class="row">
-        {% for val in persons %}
-          <div class="col-lg-3">
-            <div class="service-item first-service">
-              <div class="icon" style="background-image: url({{ val.photo.url }});"></div>
-              <h4>{{ val.first_name }} - {{ val.last_name }}</h4>
-              <p>العمر : {{ val.birth_date|timesince }}</p>
-              <p>اخر مرة شوهد فيها : {{ val.last_seen_date }}</p>
-              <div class="text-button">
-                <a href="{% url 'public.details' val.id %}">التفاصيل <i class="fa fa-arrow-right"></i></a>
+    <div class="row g-4">
+      {% for val in persons %}
+        <div class="col-md-6 col-lg-6 col-xl-3 wow fadeInUp" data-wow-delay="0.2s">
+          <div class="team-item">
+            <div class="team-img">
+              <img src="{{ val.photo.url }}" class="img-fluid rounded-top w-100" alt="{{ val.first_name }} {{ val.last_name }}">
+              <div class="team-icon">
+                <a class="btn btn-primary btn-sm-square rounded-pill mb-2" href="#"><i class="fab fa-facebook-f"></i></a>
+                <a class="btn btn-primary btn-sm-square rounded-pill mb-2" href="#"><i class="fab fa-twitter"></i></a>
+              </div>
+            </div>
+            <div class="team-title p-4">
+              <h4 class="mb-0">{{ val.first_name }} {{ val.last_name }}</h4>
+              <p class="mb-0">العمر: {{ val.get_birt_day }}</p>
+              <p class="mb-0">اخر مرة شوهد فيها: {{ val.last_seen_date }}</p>
+              <div class="m-2">
+                <a class="btn btn-dark" href="{% url 'public.details' val.id %}">التفاصيل <i class="fa fa-arrow-right"></i></a>
               </div>
             </div>
           </div>
-        {% endfor %}
-      </div>
+        </div>
+      {% endfor %}
     </div>
   </div>
-  
-{% endblock content %}
+</div>
+
+  {% endblock content %}
 
 {% block script %}
 <!-- Include any additional scripts if needed -->
