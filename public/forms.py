@@ -10,13 +10,13 @@ class PhotoMissingPeopleForm(forms.ModelForm):
         
 class ReportForm(forms.ModelForm):
     class Meta:
-        fields = ["status","additional_info",]
+        fields = ["status",'phone',"additional_info",]
         model = ReportInformation
     
     def __init__(self, *args, **kwargs):
         super(ReportForm, self).__init__(*args, **kwargs)
         for visible in self.visible_fields():
-            visible.field.widget.attrs['class'] = 'w-100 form-control  py-3 my-3 col-6'
+            visible.field.widget.attrs['class'] = 'w-100 form-control  py-3 my-3 '
             
 class CustomUserCreationForm(UserCreationForm):
     first_name = forms.CharField(required=True, widget=forms.TextInput(attrs={'class': 'form-control'}))

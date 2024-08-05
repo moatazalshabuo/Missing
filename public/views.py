@@ -81,7 +81,7 @@ def register_mp(request):
             address=request.POST['address_l'],
             additional_info=request.POST['additional_info_l'],
         )
-        return redirect('success')
+        messages.success(request,'تم الحفظ بنجاح')
     return render(request,'public/views/register_missing_person.html')
 
 def public_logout(request):
@@ -112,7 +112,7 @@ def report(request,id):
                 report_inf.lat = request.POST['lat']
                 report_inf.lng = request.POST['lng']
                 report_inf.save()
-                return redirect('success')
+                messages.success(request,'تم الحفظ بنجاح')
             form = ReportForm()
     return render(request,'public/views/report.html',{'form':form,'person':person})
 

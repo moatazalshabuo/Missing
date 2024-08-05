@@ -10,7 +10,7 @@
       <a class="nav-link {% if '/missing_persons/all' in request.path %}active{% endif %} " href="{% url 'dash.missing_persons.all' %}">الكل</a>
     </li>
     <li class="nav-item" role="presentation">
-        <a class="nav-link {% if '/missing_persons/acprove' in request.path %}active{% endif %}" href="{% url 'dash.missing_persons.approve' %}">البلاغات الموافقة</a>
+        <a class="nav-link {% if '/missing_persons/acprove' in request.path %}active{% endif %}" href="{% url 'dash.missing_persons.approve' %}">البلاغات الموافق عليها </a>
       </li>
       <li class="nav-item" role="presentation">
         <a class="nav-link {% if '/missing_persons/reject' in request.path %}active{% endif %}" href="{% url 'dash.missing_persons.reject' %}">البلاغات المرفوضة</a>
@@ -19,7 +19,7 @@
         <a class="nav-link {% if '/missing_persons/wait' in request.path %}active{% endif %}" href="{% url 'dash.missing_persons.wait' %}">بلاغات في الانتظار</a>
       </li>
       <li class="nav-item" role="presentation">
-        <a class="nav-link {% if '/missing_persons/found' in request.path %}active{% endif %}" href="{% url 'dash.missing_persons.found' %}">الاطفال المعثورين</a>
+        <a class="nav-link {% if '/missing_persons/found' in request.path %}active{% endif %}" href="{% url 'dash.missing_persons.found' %}">الاطفال ثم العثور عليهم</a>
       </li>
   </ul>
 <div class="card">
@@ -38,7 +38,7 @@
                     <th>الوزن</th>
                     <th>لون الشعر</th>
                     <th>لون العينين</th>
-                    <th>تاريخ آخر مرة شوهد فيها</th>
+                    <th>موعد اخر مرة شوهد فيها </th>
                     <th>الحالة</th>
                     <th>الإجراءات</th>
                 </tr>

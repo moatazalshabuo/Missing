@@ -8,6 +8,10 @@
       height: 400px;
       width: 100%;
     }
+    #map2{
+      height:200px;
+      width:100%;%
+    }
     .profile-img {
       max-width: 100%;
       height: auto;
@@ -124,7 +128,7 @@
                       <input class="form-control" type="text" id="eyeColor" name="eyeColor" value="{{ person.eye_color }}" disabled />
                     </div>
                     <div class="mb-3 col-md-6">
-                      <label for="lastSeenDate" class="form-label">تاريخ آخر مرة شوهد فيها</label>
+                      <label for="lastSeenDate" class="form-label">موعد اخر مرة شوهد فيها </label>
                       <input class="form-control" type="text" id="lastSeenDate" name="lastSeenDate" value="{{ person.last_seen_date }}" disabled />
                     </div>
                     <div class="mb-3 col-md-6">
@@ -194,23 +198,33 @@
                 </div>
             </div>
             {% if person.found_person_details %}
-            <div class="mb-3">
-              <label class="form-label fw-bold">تاريخ العثور:</label>
-              <p>{{ person.found_person_details.found_date }}</p>
-          </div>
-          <div class="mb-3">
-              <label class="form-label fw-bold">المنطقة:</label>
-              <p>{{ person.found_person_details.state }}</p>
-          </div>
-         
-          <div class="mb-3">
-              <label class="form-label fw-bold">الحالة الصحية الحالية:</label>
-              <p>{{ person.found_person_details.current_health_status }}</p>
-          </div>
-          <div class="mb-3">
-              <label class="form-label fw-bold">تفاصيل أخرى:</label>
-              <p>{{ person.found_person_details.other_detiles }}</p>
-          </div>
+            <div class="row">
+              <div class="col-md-7">
+                <div class="mb-3">
+                  <label class="form-label fw-bold">تاريخ العثور:</label>
+                  <p>{{ person.found_person_details.found_date }}</p>
+              </div>
+              <div class="mb-3">
+                  <label class="form-label fw-bold">المنطقة:</label>
+                  <p>{{ person.found_person_details.state }}</p>
+              </div>
+             
+              <div class="mb-3">
+                  <label class="form-label fw-bold">الحالة الصحية الحالية:</label>
+                  <p>{{ person.found_person_details.current_health_status }}</p>
+              </div>
+              <div class="mb-3">
+                  <label class="form-label fw-bold">تفاصيل أخرى:</label>
+                  <p>{{ person.found_person_details.other_detiles }}</p>
+              </div>
+              </div>
+          
+            <div class="col-md-5">
+              <div id='map2'>
+
+              </div>
+            </div>
+            
           {% else %}
           لايوجد
             {% endif %}
@@ -222,16 +236,27 @@
 {% endblock %}
 
 {% block script %}
-  <script>
-    
-   $(function(){
+<script>
+  $(function(){
+      // خريطة الشخص
       var map = L.map('map').setView([{{ person.lat }}, {{ person.lng }}], 13);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map);
-    L.marker([{{ person.lat }}, {{ person.lng }}]).addTo(map)
-        .bindPopup('آخر مكان شوهد فيه.')
-        .openPopup();
-    })
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      }).addTo(map);
+      L.marker([{{ person.lat }}, {{ person.lng }}]).addTo(map)
+          .bindPopup('آخر مكان شوهد فيه.')
+          .openPopup();
+
+      {% if person.found_person_details %}
+      // خريطة الشخص بعد العثور عليه
+      var map2 = L.map('map2').setView([{{ person.found_person_details.found_location_lat }}, {{ person.found_person_details.found_location_lng }}], 13);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      }).addTo(map2);
+      L.marker([{{ person.found_person_details.found_location_lat }}, {{ person.found_person_details.found_location_lng }}]).addTo(map2)
+          .bindPopup('آخر مكان شوهد فيه.')
+          .openPopup();
+      {% endif %}
+  });
 </script>
 {% endblock %}

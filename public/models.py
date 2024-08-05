@@ -69,7 +69,7 @@ class Reporter(models.Model):
 class ReportInformation(models.Model):
     missing_person = models.ForeignKey(MissingPerson,related_name='info',on_delete=models.CASCADE)
     user = models.ForeignKey(User,related_name='user_info',on_delete=models.CASCADE,blank=True, null=True)
-  
+    phone = models.CharField(max_length=12,blank=True, null=True)
     status = models.CharField(max_length=20,verbose_name='الحالة',choices=(('تم العثور','تم العثور'),('شوهد','شوهد')))
     status_of_report = models.IntegerField(default=0)
     additional_info = models.TextField(blank=True, null=True, verbose_name="معلومات إضافية")

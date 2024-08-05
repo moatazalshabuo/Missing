@@ -217,7 +217,7 @@
     function renderCharts(data) {
         if (missingChart) {
             missingChart.updateSeries([{
-                name: 'عدد الأشخاص المفقودين',
+                name: 'عدد الاطفال المفقودين',
                 data: data.missing.counts
             }]);
         } else {
@@ -227,7 +227,7 @@
                 },
                 colors: ['#FF5733'],
                 series: [{
-                    name: 'عدد الأشخاص المفقودين',
+                    name: 'عدد الاطفال المفقودين',
                     data: data.missing.counts
                 }],
                 xaxis: {
@@ -240,7 +240,7 @@
 
         if (foundChart) {
             foundChart.updateSeries([{
-                name: 'عدد الأشخاص الذين تم العثور عليهم',
+                name: 'عدد الاطفال الذين تم العثور عليهم',
                 data: data.found.counts
             }]);
         } else {
@@ -250,7 +250,7 @@
                 },
                 colors: ['#33FF57'],
                 series: [{
-                    name: 'عدد الأشخاص الذين تم العثور عليهم',
+                    name: 'عدد الاطفال الذين تم العثور عليهم',
                     data: data.found.counts
                 }],
                 xaxis: {
@@ -263,7 +263,7 @@
 
         if (trendChart) {
             trendChart.updateSeries([{
-                name: 'عدد الأشخاص المفقودين',
+                name: 'عدد الاطفال المفقودين',
                 data: data.trend.counts
             }]);
         } else {
@@ -272,7 +272,7 @@
                     type: 'line'
                 },
                 series: [{
-                    name: 'عدد الأشخاص المفقودين',
+                    name: 'عدد الاطفال المفقودين',
                     data: data.trend.counts
                 }],
                 xaxis: {

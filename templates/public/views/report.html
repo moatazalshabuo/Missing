@@ -33,15 +33,24 @@ crossorigin=""></script>
             <p>
                 في حال لديك معلومات تفيد في العثور على المفقود 
             </p>
+            {% if messages  %}
+            <div class="alert alert-success m-3">
+                
+                {% for massege in messages %}
+                    {{ massege }}
+                {% endfor %}
+                    
+            </div>
+            {% endif %}
           </div>
       
                 
                 <div class="col-lg-7">
-                    <form action="" method="post" class="mb-4">
+                    <form action="" method="post" class="mb-4" id="form">
                         {% csrf_token %}
-                        <div class="row">
+                        
                             {{ form }}
-                        </div>
+                        <div class='error'></div>
                         <input type="hidden" name="lat" id='lat'>
                         <input type="hidden" name="lng" id='lng'>
                         
@@ -86,6 +95,18 @@ crossorigin=""></script>
         .bindPopup('<p>تم تحديد الموقع</p>')
         .openPopup();   
     });
-    $('input.form-control').parent('div').addClass('col-md-6')
+    $('input[name=phone]').attr('type','number')
+
+    $('#form').submit(function (event) {
+        $('.error').html('')
+        var phoneNumber = $('#id_phone').val();
+
+        if (phoneNumber.length !== 10) {
+            event.preventDefault();  // منع إرسال النموذج
+            $('.error').html("<span class='alert alert-danger'>رقم الهاتف يجب أن يحتوي على 10 أرقام.</span>");
+        }else{
+            $('#form').submit()
+        }
+    });
 </script>
 {% endblock script %}
