@@ -78,18 +78,18 @@ WSGI_APPLICATION = 'missing_people.wsgi.application'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': BASE_DIR / 'db.sqlite3',
-    # },
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'desertte_gold_store',
-        'HOST': 'localhost',
-        'USER': 'desertte_desertt',
-        'PASSWORD': 'V+d:50uDok5AL7'
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    },
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.mysql',
+    #     'NAME': 'desertte_gold_store',
+    #     'HOST': 'localhost',
+    #     'USER': 'desertte_desertt',
+    #     'PASSWORD': 'V+d:50uDok5AL7'
 
-    }
+    # }
 }
 
 
@@ -127,10 +127,10 @@ USE_TZ = True
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
-EMAIL_HOST = ''  # e.g., 'smtp.example.com'
+EMAIL_HOST = 'missing.desert-technology.com.ly'  # e.g., 'smtp.example.com'
 EMAIL_PORT = 465
-EMAIL_HOST_USER = ''  # Your cPanel email address
-EMAIL_HOST_PASSWORD = ''
+EMAIL_HOST_USER = 'info@missing.desert-technology.com.ly'  # Your cPanel email address
+EMAIL_HOST_PASSWORD = 'Cll8l927@123'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/

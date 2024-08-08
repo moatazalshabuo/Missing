@@ -69,42 +69,75 @@
                 <h3 class="card-title mb-2">{{ reject }}</h3>
               </div>
             </div>
+
+          </div>
+          <div class="col-6 mb-4">
+            <div class="card">
+              <div class="card-body">
+                <div class="d-flex justify-content-between flex-sm-row flex-column gap-3">
+                  <div class="d-flex flex-sm-column flex-row align-items-start justify-content-between">
+                    <div class="card-title">
+                      <h5 class="text-nowrap mb-2">الاجمالي</h5>
+                      {% comment %} <span class="badge bg-label-warning rounded-pill">Year 2021</span> {% endcomment %}
+                    </div>
+                    <div class="mt-sm-auto">
+                      {% comment %} <small class="text-success text-nowrap fw-semibold"
+                        ><i class="bx bx-chevron-up"></i> 68.2%</small
+                      > {% endcomment %}
+                      <h3 class="mb-0">{{ total }}</h3>
+                    </div>
+                  </div>
+                  <div id="chart"></div>
+                </div>
+              </div>
+            </div>
           </div>
       </div>
     </div>
     <!-- Total Revenue -->
-    <div class="col-12 col-lg-8 order-2 order-md-3 order-lg-2 mb-4">
-      
-    </div>
-    <!--/ Total Revenue -->
-    <div class="col-12 col-md-8 col-lg-4 order-3 order-md-2">
+    <div class="col-12  order-2 order-md-3 order-lg-2 mb-4">
       <div class="row">
-        
-        <!-- </div>
-<div class="row"> -->
-        <div class="col-12 mb-4">
+        <div class="col-md-6">
+          <div class="card" style="height:450px;overflow-y:scroll">
+            <div class="row row-bordered g-0">
+              <div class="col-md-12">
+                <h5 class="card-header m-0 me-2 pb-3">البلاغات المرفوضة</h5>
+              
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>الاسم الكامل</th>
+                            <th>موقع الاختفاء</th>
+                            <th>من قام بالإبلاغ</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for person in unaccept_messing %}
+                        <tr>
+                            <td>{{ person.first_name }} {{ person.last_name }}</td>
+                            <td>{{ person.Region }}</td>
+                            <td>{{ person.user.username }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
           <div class="card">
-            <div class="card-body">
-              <div class="d-flex justify-content-between flex-sm-row flex-column gap-3">
-                <div class="d-flex flex-sm-column flex-row align-items-start justify-content-between">
-                  <div class="card-title">
-                    <h5 class="text-nowrap mb-2">الاجمالي</h5>
-                    {% comment %} <span class="badge bg-label-warning rounded-pill">Year 2021</span> {% endcomment %}
-                  </div>
-                  <div class="mt-sm-auto">
-                    {% comment %} <small class="text-success text-nowrap fw-semibold"
-                      ><i class="bx bx-chevron-up"></i> 68.2%</small
-                    > {% endcomment %}
-                    <h3 class="mb-0">{{ total }}</h3>
-                  </div>
-                </div>
-                <div id="chart"></div>
+            <div class="row row-bordered g-0">
+              <div class="col-md-12">
+                <h5 class="card-header m-0 me-2 pb-3">البلاغات المرفوضة السنوية</h5>
+                <div id="chart2" class="px-2"></div>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+    <!--/ Total Revenue -->
   </div>
   
 {% endblock content %}
@@ -127,5 +160,21 @@
       var chart = new ApexCharts(document.querySelector("#chart"), options);
       
       chart.render();
+      var options = {
+        chart: {
+          type: 'line'
+        },
+        series: [{
+          name: 'missing',
+          data: {{ chart_unaccept }}
+        }],
+        xaxis: {
+          categories:  ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul','Aug','Sep','Nov','Dec'],
+        }
+      }
+      
+      var chart2 = new ApexCharts(document.querySelector("#chart2"), options);
+      
+      chart2.render();
 </script>
 {% endblock script %}

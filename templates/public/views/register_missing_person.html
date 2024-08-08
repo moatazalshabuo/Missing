@@ -92,14 +92,21 @@ crossorigin=""></script>
             <p class="mb-0">
                 <p>إذا كنت ترغب في تسجيل بلاغ عن طفل مفقود، يرجى ملء النموذج أدناه وتقديم أكبر قدر ممكن من المعلومات.</p>
             </p>
-            {% if messages  %}
-        <div class="alert alert-success m-3">
-            
+        {% if messages  %}
+        
             {% for massege in messages %}
-                {{ massege }}
+            
+                        {% if massege.tags == "success" %}
+                        <div class="alert alert-success m-3">
+                            {{ massege }}
+                        </div>
+                        {% endif %}
+                        {% if massege.tags == "error" %}
+                        <div class="alert alert-danger m-3">
+                            {{ massege }}
+                        </div>
+                        {% endif %} 
             {% endfor %}
-                
-        </div>
         {% endif %}
         </div>
         <div class="col-md-12 mb-4">
@@ -133,13 +140,14 @@ crossorigin=""></script>
                                 <div class="col-md-6">
                                     <div class="form-group m-3">
                                         <label for="first_name">الاسم الأول</label>
-                                        <input type="text" class="form-control" required placeholder="الاسم الاول"  id="first_name" name="first_name">
+                                        <input type="text"
+                                        data-type='str' class="form-control" required placeholder="الاسم الاول"  id="first_name" name="first_name">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group m-3">
                                         <label for="last_name">اسم العائلة</label>
-                                        <input type="text" class="form-control" required placeholder="اسم العائلة" id="last_name" name="last_name">
+                                        <input type="text" data-type='str' class="form-control" required placeholder="اسم العائلة" id="last_name" name="last_name">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -150,7 +158,7 @@ crossorigin=""></script>
                                 </div>
                                 <div class="col-md-6">
                                     <label for="">المنطقة</label>
-                                    <select class="form-control w-100" required name="Region">
+                                    <select class="form-control w-100" required name="Region" id='selRegion'>
                                         <option value="" disabled selected>اختيار المنطقة التي فقد فيها </option>
                                         <option value="أبو ستة">أبو ستة</option>
                                         <option value="أبو سليم">أبو سليم</option>
@@ -266,8 +274,7 @@ crossorigin=""></script>
                                     <label>اخرى <input type="checkbox" class="other" data-name="Region"></label>
                                     <input type="hidden" name="Region" id='Region' disabled placeholder="ادخل المنطقة" class="form-control">                            
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="form-group m-3">
+                                <div class="col-md-6">                                    <div class="form-group m-3">
                                         <label for="gender">الجنس</label>
                                         <select id="gender" class="form-control w-100" name="gender" required>
                                             <option value="" disabled selected>الجنس</option>
@@ -343,13 +350,13 @@ crossorigin=""></script>
                                 <div class="col-md-6">
                                     <div class="form-group m-3">
                                         <label for="distinguishing_marks">علامات مميزة</label>
-                                        <textarea id="distinguishing_marks" class="form-control" required name="distinguishing_marks"></textarea>
+                                        <input id="distinguishing_marks" class="form-control" required name="distinguishing_marks">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group m-3">
                                         <label for="last_seen_clothing">الملابس عند الاختفاء</label>
-                                        <textarea id="last_seen_clothing" class="form-control" required name="last_seen_clothing"></textarea>
+                                        <input id="last_seen_clothing" class="form-control" required name="last_seen_clothing">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -399,11 +406,11 @@ crossorigin=""></script>
                                     <h3 class="section-title">معلومات المبلغ</h3>
                                     <div class="form-group m-3">
                                         <label for="first_name">الاسم الأول</label>
-                                        <input type="text" class="form-control" id="first_name" name="first_name_l">
+                                        <input type="text" class="form-control" data-type='str' id="first_name" name="first_name_l">
                                     </div>
                                     <div class="form-group m-3">
                                         <label for="last_name">اسم العائلة</label>
-                                        <input type="text" class="form-control" id="last_name" name="last_name_l">
+                                        <input type="text" class="form-control" data-type='str' id="last_name" name="last_name_l">
                                     </div>
                                     <div class="form-group m-3">
                                         <label for="relationship_to_missing">العلاقة بالمفقود</label>
@@ -428,24 +435,54 @@ crossorigin=""></script>
                                     </div>
                                 </div>
                             </div>
-                            <button class="btn btn-success text-light m-3" id='submit' type="submit">Finish!</button>
+                            <button class="btn btn-success text-light m-3" id='submit' type="button">Finish!</button>
                         </div>
                     </div>
                 </div>
+                <div class="modal fade" id="missingPersonModal" tabindex="-1" role="dialog" aria-labelledby="missingPersonModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="missingPersonModalLabel">Missing Person Details</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          <img id="modalPhoto" src="" alt="Missing Person Photo" style="max-width: 100%; height: auto; display: none;">
+                          <p><strong>First Name:</strong> <span id="modalFirstName"></span></p>
+                          <p><strong>Last Name:</strong> <span id="modalLastName"></span></p>
+                          <p><strong>Region:</strong> <span id="modalRegion"></span></p>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" onclick='location.reload()' data-dismiss="modal">الغاء</button>
+                          <button type=submit class='btn btn-primary' id='nothim'>ليس نفس الطفل</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
             </form>
         </div>
       </div>
     </div>
 </div>
 
+  
 {% endblock content %}
 
 {% block script %}
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.3/axios.min.js"></script>
 
 <script>
+    var today = new Date().toISOString().split('T')[0];
+    
     $(document).ready(function () {
-
+        $('#birth_date').attr('max',today)
+        $('#birth_date').change(function(){
+            
+            $('#last_seen_date').attr('min',$(this).val()+'T00:00:00')
+        })
         var navListItems = $('div.setup-panel div a'),
                 allWells = $('.setup-content'),
                 allNextBtn = $('.nextBtn');
@@ -466,6 +503,17 @@ crossorigin=""></script>
             }
         });
     
+        function error_fun(curInput,string){
+            $(curInput).closest(".form-group").removeClass("has-error");
+            $(curInput).closest(".form-group").addClass("has-error");
+            $(curInput).next('.text-danger').remove();
+            $(curInput).after(string);
+        }
+        function validateName(name) {
+            // تعبير منتظم للتحقق من الحروف العربية أو الإنجليزية فقط
+            var regex = /^[\u0600-\u06FFa-zA-Z\s]+$/;
+            return regex.test(name);
+        }
         allNextBtn.click(function(){
             var curStep = $(this).closest(".setup-content"),
                 curStepBtn = curStep.attr("id"),
@@ -478,15 +526,18 @@ crossorigin=""></script>
                 
                 if ($(curInputs[i]).val() == '' || $(curInputs[i]).val() == undefined){
                     isValid = false;
-                    $(curInputs[i]).closest(".form-group").removeClass("has-error");
-                    $(curInputs[i]).closest(".form-group").addClass("has-error");
-                    $(curInputs[i]).next('.text-danger').remove()
-                    
+                    error_fun(curInputs[i],'<span class="text-danger">هذا الحقل مطلوب</span>')
                     
                 }
                 if ($(curInputs[i]).attr('type') === 'tel' && $(curInputs[i]).val().length !== 10) {
                     isValid = false;
-                    $(curInputs[i]).after('<span class="text-danger">يجب أن يحتوي رقم الهاتف على 10 أرقام</span>');
+                    error_fun(curInputs[i],'<span class="text-danger">يجب أن يحتوي رقم الهاتف على 10 أرقام</span>')
+                }
+                if($(curInputs[i]).data('type') == 'str' && !validateName($(curInputs[i]).val())){
+                        isValid = false;
+                        error_fun(curInputs[i],'<span class="text-danger">يجب ادخال اسم صحيح</span>')
+                    
+                                      
                 }
             }
     
@@ -539,6 +590,13 @@ crossorigin=""></script>
                     isValid = false;
                     $(curInputs[i]).after('<span class="text-danger">يجب أن يحتوي رقم الهاتف على 10 أرقام</span>');
                 }
+
+                if($(curInputs[i]).data('type') == 'str' && !validateName($(curInputs[i]).val())){
+                        isValid = false;
+                        error_fun(curInputs[i],'<span class="text-danger">يجب ادخال اسم صحيح</span>')
+                    
+                                      
+                }
             }
             if(!isValid){
             Swal.fire({
@@ -548,9 +606,39 @@ crossorigin=""></script>
                   footer: ''
                 });
             }else{
-            $('#form-send').submit()
+                axios.get('/api/check_messing',{params:{first_name:$('#first_name').val(),
+                last_name:$('#last_name').val(),
+                birth_date:$('#birth_date').val(),
+                Region:$('#selRegion').val()}}).then((response)=>{
+                    if (response.data.status) {
+                        // Populate the modal with the missing person details
+                        const data = response.data.data;
+                        document.getElementById('modalFirstName').innerText = data.first_name;
+                        document.getElementById('modalLastName').innerText = data.last_name;
+                        document.getElementById('modalRegion').innerText = data.Region;
+        
+                        const photoElement = document.getElementById('modalPhoto');
+                        if (data.photo) {
+                            photoElement.src = data.photo;
+                            photoElement.style.display = 'block';
+                        } else {
+                            photoElement.style.display = 'none';
+                        }
+        
+                        // Show the modal
+                        $('#missingPersonModal').modal('show');
+                    } else {
+                        $('#form-send').submit()
+                    }
+                })
+      
             }
             });
+        })
+
+        $('#nothim').click(function(){
+            console.log('sd')
+            $('#form-send').submit()
         })
     });
 </script>

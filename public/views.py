@@ -39,11 +39,15 @@ def public_login(request):
 def public_singup(request):
     if request.method == "POST":
         form = CustomUserCreationForm(request.POST)
+        
         if form.is_valid():
-            user = form.save()
-            login(request, user)
-            messages.success(request, "تم إنشاء الحساب بنجاح")
-            return redirect("/")  # استبدل 'home' بالوجهة المناسبة بعد تسجيل الدخول
+            if request.POST['first_name'].isalpha() and request.POST['first_name'].isalpha():
+                user = form.save()
+                login(request, user)
+                messages.success(request, "تم إنشاء الحساب بنجاح")
+                return redirect("/")  # استبدل 'home' بالوجهة المناسبة بعد تسجيل الدخول
+            else:
+                messages.error(request,'الاسم لا يجب ان يتضمن اي ارقام او رموز')
         else:
             messages.error(request, "هناك خطأ في النموذج. يرجى التحقق من المدخلات.")
     else:
@@ -52,36 +56,41 @@ def public_singup(request):
 
 def register_mp(request):
     if request.method == 'POST':
-        missing_person = MissingPerson.objects.create(
-            first_name=request.POST['first_name'],
-            last_name=request.POST['last_name'],
-            birth_date=request.POST['birth_date'],
-            gender=request.POST['gender'],
-            height=request.POST['height'],
-            weight=request.POST['weight'],
-            hair_color=request.POST['hair_color'],
-            eye_color=request.POST['eye_color'],
-            distinguishing_marks=request.POST['distinguishing_marks'],
-            last_seen_date=request.POST['last_seen_date'],
-            lat=request.POST['lat'],
-            lng=request.POST['lng'],
-            Region=request.POST['Region'],
-            health_conditions=request.POST['health_conditions'],
-            last_seen_clothing=request.POST['last_seen_clothing']
-        )
-        
-        form = PhotoMissingPeopleForm(None,request.FILES,instance=missing_person)
-        form.save()
-        Reporter.objects.create(
-            missing_person=missing_person,
-            first_name=request.POST['first_name_l'],
-            last_name=request.POST['last_name_l'],
-            relationship_to_missing=request.POST['relationship_to_missing_l'],
-            phone_number=request.POST['phone_number_l'],
-            address=request.POST['address_l'],
-            additional_info=request.POST['additional_info_l'],
-        )
-        messages.success(request,'تم الحفظ بنجاح')
+        if MissingPerson.objects.filter(user=request.user,status=3).count() < 3:
+            missing_person = MissingPerson.objects.create(
+                first_name=request.POST['first_name'],
+                last_name=request.POST['last_name'],
+                birth_date=request.POST['birth_date'],
+                gender=request.POST['gender'],
+                height=request.POST['height'],
+                weight=request.POST['weight'],
+                hair_color=request.POST['hair_color'],
+                eye_color=request.POST['eye_color'],
+                distinguishing_marks=request.POST['distinguishing_marks'],
+                last_seen_date=request.POST['last_seen_date'],
+                lat=request.POST['lat'],
+                lng=request.POST['lng'],
+                Region=request.POST['Region'],
+                health_conditions=request.POST['health_conditions'],
+                last_seen_clothing=request.POST['last_seen_clothing']
+            )
+            if request.user:
+                missing_person.user = request.user
+                missing_person.save()
+            form = PhotoMissingPeopleForm(None,request.FILES,instance=missing_person)
+            form.save()
+            Reporter.objects.create(
+                missing_person=missing_person,
+                first_name=request.POST['first_name_l'],
+                last_name=request.POST['last_name_l'],
+                relationship_to_missing=request.POST['relationship_to_missing_l'],
+                phone_number=request.POST['phone_number_l'],
+                address=request.POST['address_l'],
+                additional_info=request.POST['additional_info_l'],
+            )
+            messages.success(request,'تم الحفظ بنجاح')
+        else:
+            messages.error(request,'تم رفض طلبك الرجاء التواصل مع الدعم الفني لمزيد من التفاصيل')
     return render(request,'public/views/register_missing_person.html')
 
 def public_logout(request):
@@ -131,8 +140,12 @@ def admin_index(request):
     count_wait = persons.filter(status = 0).count()
     count_reject = persons.filter(status = 3).count()
     chart =[]
+    chart_unaccept =[]
+    unaccept_messing = MissingPerson.objects.filter(status=3) 
     for i in range(1,13):
         chart.append(persons.filter(created_at__year=datetime.date.today().year,created_at__month=i).count())
+    for i in range(1,13):
+        chart_unaccept.append(persons.filter(status=3,created_at__year=datetime.date.today().year,created_at__month=i).count())
         
     print(chart)
     return render(request,'dashboard/views/index.html',{'count_missing':count_missing
@@ -140,7 +153,7 @@ def admin_index(request):
                                                         'count_wait':count_wait,
                                                         'total':persons.count(),
                                                         'reject':count_reject,
-                                                        'persons':persons,'chart':chart})
+                                                        'persons':persons,'chart':chart,'chart_unaccept':chart_unaccept,'unaccept_messing':unaccept_messing})
 @login_required(login_url='/login')
 def admin_map(request):
     check_if_staff(request)
@@ -280,7 +293,7 @@ def get_initial_data():
 def missing_persons_dashboard(request):
     check_if_staff(request)
     data = get_initial_data()
-    return render(request, 'dashboard/views/charts.html', {'data': data})
+    return render(request, 'dashboard/views/charts.html', {'data': data,'table_missing':zip(data['missing']['regions'],data['missing']['counts'])})
 
 def filter_data_by_region_and_date(request):
     start_date = request.GET.get('start_date')

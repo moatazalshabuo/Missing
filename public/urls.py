@@ -15,7 +15,6 @@ urlpatterns = [
     
     path('api/get_missing',get_missing),
     path('api/person-data/<int:id>',get_person)
-    
     # ============= admin ===========================
     ,path('dash',admin_index,name='admin.index'),
     path('dash/map',admin_map,name='admin.map'),
@@ -32,5 +31,6 @@ urlpatterns = [
     path('dash/dashboard/', missing_persons_dashboard, name='missing_persons_dashboard'),
     path('filter_data_by_region_and_date', filter_data_by_region_and_date, name='filter_data_by_region_and_date'),
     path('search/', search_missing_persons, name='search_missing_persons'),
-    path('delete/<int:id>',delete_person,name='delete.person')
+    path('delete/<int:id>',delete_person,name='delete.person'),
+    path('api/check_messing',check_data_missing,name='check.missing')
 ]

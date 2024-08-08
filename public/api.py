@@ -27,3 +27,10 @@ def get_missing(request):
 
 def get_person(requset,id):
     return JsonResponse(Missing_Person_serializer(MissingPerson.objects.get(pk=id)).data)
+
+def check_data_missing(req):
+    messing = MissingPerson.objects.filter(first_name=req.GET['first_name'],
+                                        last_name=req.GET['last_name'],
+                                        birth_date=req.GET['birth_date'],
+                                        Region=req.GET['Region'])
+    return JsonResponse({'status':messing.exists(),'data':Missing_Person_serializer(messing.first()).data})

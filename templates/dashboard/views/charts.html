@@ -46,76 +46,106 @@
     <div class="row">
         <div class="col-12 my-2">
             <div class="row">
+                    <div class="col-3">
+                        <div class="card my-1">
+                            <div class="card-body">
+                              <div class="card-title d-flex align-items-start justify-content-between">
+                                <div class="avatar flex-shrink-0">
+                                    <i class='bx bxs-user-badge text-primary' style="font-size: 40px;"></i>
+                                </div>
+                              </div>
+                              <span class="fw-semibold d-block mb-1">الاطفال المفقودين</span>
+                              <h3 class="card-title mb-2"id="total_missing">{{ data.total_missing  }}</h3>
+                            </div>
+                          </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="card my-1">
+                            <div class="card-body">
+                              <div class="card-title d-flex align-items-start justify-content-between">
+                                <div class="avatar flex-shrink-0">
+                                    <i class='bx bxs-user-badge text-primary' style="font-size: 40px;"></i>
+                                </div>
+                              </div>
+                              <span class="fw-semibold d-block mb-1">الاطفال الذين ثم العثور عليهم</span>
+                              <h3 class="card-title mb-2" id="total_found">{{ data.total_found }}</h3>
+                            </div>
+                          </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="card my-1">
+                            <div class="card-body">
+                              <div class="card-title d-flex align-items-start justify-content-between">
+                                <div class="avatar flex-shrink-0">
+                                    <i class='bx bxs-user-badge text-primary' style="font-size: 40px;"></i>
+                                </div>
+                              </div>
+                              <span class="fw-semibold d-block mb-1">البلاغات المرفوضة</span>
+                              <h3 class="card-title mb-2"id="total_rejected">{{ data.total_rejected }}</h3>
+                            </div>
+                          </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="card my-1">
+                            <div class="card-body">
+                              <div class="card-title d-flex align-items-start justify-content-between">
+                                <div class="avatar flex-shrink-0">
+                                    <i class='bx bxs-user-badge text-primary' style="font-size: 40px;"></i>
+                                </div>
+                              </div>
+                              <span class="fw-semibold d-block mb-1">اجمالي البلاغات</span>
+                              <h3 class="card-title mb-2" id="total_reports">{{ data.total_reports }}</h3>
+                            </div>
+                          </div>
+                    </div>
                 
             </div>
         </div>
-        <div class="col-9 my-2">
+        <div class="col-6 my-2">
+            <div class="card">
+                <div class="card-body table-responsive">
+                    <h4 class="card-title">عدد الاطفال المفقودين حسب المناطق</h4>
+                    <table class="table" id='rigion'>
+                        <thead>
+                            <tr>
+                                <th>المنطقة</th>
+                                <th>العدد</th>
+                            </tr>
+                            
+                        </thead>
+                    
+                        <tbody>
+                            
+                        {% for region,count in table_missing %}
+                            <tr>
+                                <td>{{ region }}</td>
+                                <td>{{ count }}</td>
+                                
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 my-2">
             <div class="card">
                 
                 <div class="card-body">
                     <h4 class="card-title">عدد الاطفال المفقودين حسب المنطقة</h4>
                     <div id="missing_chart"></div>
                 </div>
+            </div>
+        </div>
+        <div class="col-6 my-2">
+            <div class="card">
                 <div class="card-body">
                     <h4 class="card-title">توزيع الاطفال المفقودين حسب العمر</h4>
                     <div id="age_group_chart"></div>
                 </div>
             </div>
         </div>
-        <div class="col-3 ">
-            <div class="">
-                <div class="card my-1">
-                    <div class="card-body">
-                      <div class="card-title d-flex align-items-start justify-content-between">
-                        <div class="avatar flex-shrink-0">
-                            <i class='bx bxs-user-badge text-primary' style="font-size: 40px;"></i>
-                        </div>
-                      </div>
-                      <span class="fw-semibold d-block mb-1">الاطفال المفقودين</span>
-                      <h3 class="card-title mb-2"id="total_missing">{{ data.total_missing  }}</h3>
-                    </div>
-                  </div>
-            </div>
-            <div class="">
-                <div class="card my-1">
-                    <div class="card-body">
-                      <div class="card-title d-flex align-items-start justify-content-between">
-                        <div class="avatar flex-shrink-0">
-                            <i class='bx bxs-user-badge text-primary' style="font-size: 40px;"></i>
-                        </div>
-                      </div>
-                      <span class="fw-semibold d-block mb-1">الاطفال الذين ثم العثور عليهم</span>
-                      <h3 class="card-title mb-2" id="total_found">{{ data.total_found }}</h3>
-                    </div>
-                  </div>
-            </div>
-            <div class="">
-                <div class="card my-1">
-                    <div class="card-body">
-                      <div class="card-title d-flex align-items-start justify-content-between">
-                        <div class="avatar flex-shrink-0">
-                            <i class='bx bxs-user-badge text-primary' style="font-size: 40px;"></i>
-                        </div>
-                      </div>
-                      <span class="fw-semibold d-block mb-1">البلاغات المرفوضة</span>
-                      <h3 class="card-title mb-2"id="total_rejected">{{ data.total_rejected }}</h3>
-                    </div>
-                  </div>
-            </div>
-            <div class="">
-                <div class="card my-1">
-                    <div class="card-body">
-                      <div class="card-title d-flex align-items-start justify-content-between">
-                        <div class="avatar flex-shrink-0">
-                            <i class='bx bxs-user-badge text-primary' style="font-size: 40px;"></i>
-                        </div>
-                      </div>
-                      <span class="fw-semibold d-block mb-1">اجمالي البلاغات</span>
-                      <h3 class="card-title mb-2" id="total_reports">{{ data.total_reports }}</h3>
-                    </div>
-                  </div>
-            </div>
-        </div>
+        
         <div class="col-6 my-2">
             <div class="card ">
                 
@@ -307,7 +337,6 @@
     function updateTables(data) {
         $('#missing_table').DataTable().clear().draw();
         $('#found_children_table').DataTable().clear().draw();
-        console.log(data)
         data.missing_people.forEach(person => {
             $('#missing_table').DataTable().row.add([
                 person.first_name,
@@ -369,6 +398,7 @@
     $(function(){
         $('#missing_table').DataTable();
         $('#found_children_table').DataTable();
+        $('#rigion').DataTable()
         
     })
 </script>

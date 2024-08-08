@@ -38,6 +38,7 @@ class MissingPerson(models.Model):
         ('1', 'مفقود'),
         ('2', 'تم العثور'),
         ('3', 'رفض')),default=0)
+    user = models.ForeignKey(User,blank=True,null=True, related_name='my_report',on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
@@ -52,6 +53,7 @@ class MissingPerson(models.Model):
     def get_status(self):
         return self.Status_CHOICES[self.status]
 # Model for the Person Reporting the Missing Person
+
 class Reporter(models.Model):
     missing_person = models.OneToOneField(MissingPerson, on_delete=models.CASCADE, verbose_name="المفقود")
     user = models.ForeignKey(User,related_name='user_report',on_delete=models.CASCADE,blank=True, null=True)
