@@ -54,6 +54,35 @@ def public_singup(request):
         form = CustomUserCreationForm()
     return render(request, "public/views/singup.html", {"form": form})
 
+def public_Volunteers(request):
+    if request.method == "POST":
+        form = CustomUserCreationForm(request.POST)
+        print(request.FILES)
+        if form.is_valid():
+            if request.POST['first_name'].isalpha() and request.POST['first_name'].isalpha():
+                
+                user = form.save()
+                user.is_staff = True
+                user.is_active = False
+                user.save()
+                photoForm = Photo_Profile(None,request.FILES,instance=user.profile)
+                photoForm.save()
+                print(photoForm.errors)
+              
+                
+                # return redirect("/")  # استبدل 'home' بالوجهة المناسبة بعد تسجيل الدخول
+                messages.success(request, " تم إنشاء الحساب بنجاح الرجاء الانتظانر حتى يتم تفعيل الايميل")
+                form = CustomUserCreationForm()
+            else:
+                messages.error(request,'الاسم لا يجب ان يتضمن اي ارقام او رموز')
+        else:
+            messages.error(request, "هناك خطأ في النموذج. يرجى التحقق من المدخلات.")
+    else:
+        form = CustomUserCreationForm()
+    return render(request, "public/views/Volunteers_create.html", {"form": form})
+def public_volun_index(request):
+    data = User.objects.filter(is_staff=True,is_active=True,is_superuser=False)
+    return render(request,'public/views/Volunteers.html',{'users':data})
 def register_mp(request):
     if request.method == 'POST':
         if MissingPerson.objects.filter(user=request.user,status=3).count() < 3:
@@ -185,12 +214,113 @@ def missing_persons_all(request):
     check_if_staff(request)
     missing_persons = MissingPerson.objects.all()
     return render(request, 'dashboard/views/missing_persons_all.html', {'missing_persons': missing_persons})
+from django.conf import settings
+from django.core.mail import send_mail
 
+from geopy.distance import great_circle
+from django.utils import timezone
 @login_required(login_url='/login')
 def approve_person(request, person_id):
     check_if_staff(request)
     person = get_object_or_404(MissingPerson, id=person_id)
     person.status = 1  # تم العثور
+    val = person
+    current_time = timezone.now()
+    search_radius = ((current_time - val.last_seen_date).seconds // 3600 + 1) * 2  # زيادة 2 كم كل ساعة
+    point1 = (val.lat, val.lng)
+    for user in User.objects.filter(is_staff=False):
+      
+      if not sendingEmail.objects.filter(user=user,person=val).exists():
+        point2 = (user.profile.latitude,user.profile.longitude)
+        distance = great_circle(point1, point2).kilometers
+        print(distance)
+        print(search_radius)
+        if distance <= search_radius:
+                # إرسال البريد الإلكتروني
+            html = '''<!DOCTYPE html>
+                          <html lang="ar">
+                          <head>
+                              <meta charset="UTF-8">
+                              <title>تفاصيل الشخص المفقود</title>
+                              <style>
+                                  body {
+                                        font-family: Arial, sans-serif;
+                                        direction: rtl;
+                                        text-align: right;
+                                        background-color: #f4f4f4;
+                                        margin: 0;
+                                        padding: 0;
+                                    }
+                                    .container {
+                                        width: 80%;
+                                        margin: 20px auto;
+                                        background: #fff;
+                                        padding: 20px;
+                                        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                                    }
+                                    .profile {
+                                        display: flex;
+                                        align-items: center;
+                                        margin-bottom: 20px;
+                                    }
+                                    .profile img {
+                                        border-radius: 50%;
+                                        margin-left: 20px;
+                                        width: 150px;
+                                        height: 150px;
+                                        object-fit: cover;
+                                    }
+                                    .profile-details {
+                                        flex: 1;
+                                    }
+                                    .profile-details h2 {
+                                        margin: 0;
+                                        color: #333;
+                                    }
+                                    .profile-details p {
+                                        margin: 5px 0;
+                                        color: #666;
+                                    }
+                                    .profile-details a {
+                                        display: inline-block;
+                                        margin-top: 10px;
+                                        padding: 10px 20px;
+                                        color: #fff;
+                                        background-color: #007BFF;
+                                        text-decoration: none;
+                                        border-radius: 5px;
+                                    }
+                                    .profile-details a:hover {
+                                        background-color: #0056b3;
+                                    }
+                                </style>
+                            </head>
+                            <body>'''
+            html += f'''<div class="container">
+                                    <div class="profile">
+                                        
+                                            <img src="{val.photo.url}" alt="صورة حديثة">
+                                        
+                                        <div class="profile-details">
+                                            <h2>{val.first_name} {val.last_name}</h2>
+                                            <p><strong>منطقة الاختفاء:</strong> {val.Region}</p>
+                                            <a href="https://missing.desert-technology.com.ly/details/{val.id}">عرض التفاصيل</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </body>
+                            </html>'''
+            send_mail(
+                   'تنبيه بمفقود',
+                   '',
+                    'info@missing.desert-technology.com.ly',
+                    [user.email],
+                    html_message=html
+                )
+                # إنشاء سجل إرسال البريد الإلكتروني
+
+                # إنشاء سجل إرسال البريد الإلكتروني
+
     person.save()
     return redirect('/dash/missing_persons/wait')
 @login_required(login_url='/login')
@@ -371,3 +501,31 @@ def filter_data_by_region_and_date(request):
 def missing_prson_info(request):
     check_if_staff(request)
     return render(request,'dashboard/views/missing_persons_info.html',{'report':ReportInformation.objects.order_by('-id').all()})
+
+
+@login_required(login_url='/login')
+def volunteers_list(request):
+    check_if_staff(request)
+    # جلب المتطوعين الذين هم جزء من فريق العمل وليسوا مشرفين
+    volunteers = User.objects.filter(is_staff=True, is_superuser=False)
+
+    if request.method == "POST":
+        # معالجة طلب التفعيل أو إلغاء التفعيل
+        user_id = request.POST.get('user_id')
+        action = request.POST.get('action')
+        user = User.objects.get(id=user_id)
+
+        if action == "activate":
+            user.is_active = True
+        elif action == "deactivate":
+            user.is_active = False
+        elif action == "delete":
+            user.delete()
+
+        user.save() if action != "delete" else None
+        return redirect('volunteers_list')
+
+    return render(request, 'dashboard/views/Volunteers.html', {'volunteers': volunteers})
+
+def about(request):
+    return render(request,'public/views/about.html')

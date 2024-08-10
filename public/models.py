@@ -82,6 +82,7 @@ class ReportInformation(models.Model):
     
 class UserProfile(models.Model):
     user = models.OneToOneField(User,related_name='profile', on_delete=models.CASCADE)
+    photo = models.ImageField(upload_to="Volunteers/", blank=True, null=True)
     latitude = models.FloatField()
     longitude = models.FloatField()
 

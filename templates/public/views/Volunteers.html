@@ -1,0 +1,59 @@
+{% extends "public/base.html" %}
+{% load static %}
+
+
+{% block title %}
+  الارشادات
+{% endblock title %}
+  
+{% block style %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+crossorigin=""/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+crossorigin=""></script>
+<style>
+    header{
+        top:0px !important
+    }
+</style>
+{% endblock style %}
+
+{% block content %}
+
+<div class="container-fluid team pb-5 py-5">
+    <div class="container pb-5">
+        <div class="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.2s" style="max-width: 800px;">
+            <h4 class="text-primary">المتطوعين</h4>
+            <h1 class="display-4 mb-4">تعرف على المتطوعين في النظام</h1>
+            <p class="mb-0">المتطوعون في نظام الأطفال المفقودين هم مجموعة من الأفراد الملتزمين الذين يساهمون بوقتهم وجهودهم لدعم عمليات البحث والمساعدة في إعادة الأطفال المفقودين إلى أسرهم بأمان</p>
+        </div>
+        <a href="{% url 'volunteers.create' %}" class='btn btn-primary m-5'>الانضمام</a>
+        <div class="row g-4">
+            {% for val in users %}
+                <div class="col-md-6 col-lg-6 col-xl-3 wow fadeInUp" data-wow-delay="0.2s">
+                    <div class="team-item">
+                        <div class="team-img">
+                            <img src="{{ val.profile.photo.url }}" class="img-fluid rounded-top w-100" alt="">
+                        </div>
+                        <div class="team-title p-4">
+                            <h4 class="mb-0">{{ val.first_name }} {{ val.last_name }}</h4>
+                            <p class="mb-0">البريد الإلكتروني: {{ val.email }}</p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block script %}
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+<!-- Template Javascript -->
+<script src="{% static 'js/main.js' %}"></script>
+<script>
+</script>
+
+{% endblock script %}

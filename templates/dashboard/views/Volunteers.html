@@ -1,0 +1,68 @@
+{% extends "dashboard/base.html" %}
+{% load static %}
+{% block style %}
+
+{% endblock style %}
+
+{% block content %}
+
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title"> المتطوعين</h3>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th></th>
+                    <th>الاسم الأول</th>
+                    <th>اسم العائلة</th>
+                    <th>البريد الالكتروني</th>
+                    <th>الحالة</th>
+                    <th>الإجراءات</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for volunteer in volunteers %}
+                <tr>
+                    <td>
+                        {% if volunteer.profile.photo %}
+                            <img src="{{ volunteer.profile.photo.url }}" alt="صورة المتطوع" width="50">
+                        {% else %}
+                            لا توجد صورة
+                        {% endif %}
+                    </td>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ volunteer.get_full_name }}</td>
+                    <td>{{ volunteer.email }}</td>
+                    
+                    <td>{% if volunteer.is_active %} مفعل{% else %} انتظار{% endif %}</td>
+                    <td>
+                        <form method="POST" onsubmit="return confirm('هل أنت متأكد أنك تريد حذف هذا المتطوع؟');">
+                            {% csrf_token %}
+                            <input type="hidden" name="user_id" value="{{ volunteer.id }}">
+                            {% if volunteer.is_active %}
+                                <button type="submit" name="action" value="deactivate" class="btn btn-warning">إلغاء التفعيل</button>
+                            {% else %}
+                                <button type="submit" name="action" value="activate" class="btn btn-success">تفعيل</button>
+                            {% endif %}
+                            <button type="submit" name="action" value="delete" class="btn btn-danger">حذف</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock content %}
+{% block script %}
+<script>
+    $(function(){
+        $('table').DataTable({
+            dom: 'Bfrtip',
+            buttons: ['copy', 'excel', 'print']
+        });
+    })
+</script>
+{% endblock script %}

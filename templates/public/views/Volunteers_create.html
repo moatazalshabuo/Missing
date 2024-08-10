@@ -1,0 +1,174 @@
+{% extends "public/base.html" %}
+{% load static %}
+
+
+{% block title %}
+  الارشادات
+{% endblock title %}
+  
+{% block style %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+crossorigin=""/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+crossorigin=""></script>
+<style>
+    header{
+        top:0px !important
+    }
+</style>
+{% endblock style %}
+
+{% block content %}
+
+<div id="about" class="about-us section" style="margin-top: 70px;">
+    <div class="container">
+      <a href="/" ><h1 class="text-primary">الاطفال المفقودين <i class="fab fa-slack me-2"></i></h1></a>
+      <div class="row">
+        <div class="col-lg-6 align-self-center">
+          <div class="section-heading">
+            <h4>تسجيل متطوعين</h4>
+         </div>
+          <div class="px-4" style="position: relative; z-index: 999;">
+            <div class="text-danger">
+              {% for message in messages %}
+              {% if message.tags == 'errors' %}
+              <center><strong>{{ message }}</strong></center>
+              {% endif %}
+                
+              {% endfor %}
+            </div>
+            {% for message in messages %}
+              {% if message.tags == 'success' %}
+              <div class="alert alert-success">
+                {{ message }}
+              </div>
+              {% endif %}
+                
+              {% endfor %}
+            <form method="post" action="" enctype='multipart/form-data'>
+              {% csrf_token %}
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group m-2">
+                    <label>الاسم الاول</label>
+                    {{ form.first_name }}
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group m-2">
+                    <label>اللقب</label>
+                    {{ form.last_name }}
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group m-2">
+                    <label>اسم المستخدم <small><br>(اسم المستخدم يجب الا يتضمن اي مسافات او رموز)</small></label>
+                    {{ form.username }}
+                    {% if form.username.errors %}
+                        <div class="error-message" style="color: red;">
+                            {% for error in form.username.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                  </div>
+
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group m-2">
+                    <label>البريد الالكتروني<small><br>(example@info.com)</small></label>
+                    {{ form.email }}
+                    {% if form.email.errors %}
+                      <div class="error-message" style="color: red;">
+                          {% for error in form.email.errors %}
+                              <li>{{ error }}</li>
+                          {% endfor %}
+                      </div>
+                  {% endif %}
+                  </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group m-2">
+                      <label>الصورة</label>
+                      <input type='file' class='form-control' name='photo' required>
+                      
+                    </div>
+                  </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group m-2">
+                    <label>كلمة المرور <small><br>كلمة المرور يجب ان تتكون 8 حروف على الاقل <br> يجب ان تحتوي على رمز على الاقل<br>يجب ان تتضمن حرف كبير وحرف صغير على الاقل<br>يجب ان تحتوي على رقم</small></label>
+                    {{ form.password1 }}
+                    {% if form.password1.errors %}
+                        <div class="error-message" style="color: red;">
+                            {% for error in form.password1.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group m-2">
+                    <label>تاكيد كلمة المرور</label>
+                    {{ form.password2 }}
+                  </div>
+                </div>
+              </div>
+              
+             
+              
+              {{ form.latitude }}
+              {{ form.longitude }}
+              <button type="submit" class="btn btn-primary w-100">تسجيل</button>
+              <hr class="my-4" />
+              <p style="font-size: 12px; text-align: center;">
+                لدي حساب <a href="{% url 'public.login' %}">تسجيل الدخول</a>
+              </p>
+            </form>
+          </div>
+        </div>
+        <div class="col-lg-6" style="position: relative;z-index: 555;">
+          {% if form.latitude.errors %}
+            <div class="text-danger">
+               يرحى اختيار موقعك على الخريطة
+            </div>
+        {% endif %}
+            <div class="p-4">تحديد الموقع على الخريطة</div>
+            <div id="map" style="height: 400px; margin-top: 20px;"></div>
+         
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock content %}
+
+{% block script %}
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+<!-- Template Javascript -->
+<script src="{% static 'js/main.js' %}"></script>
+<script>
+    var map = L.map('map').setView([32.89605782530956, 13.178557744256981], 13);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    var marker = L.marker([32.89605782530956, 13.178557744256981]).addTo(map);
+
+    function onMapClick(e) {
+        marker.setLatLng(e.latlng);
+        document.getElementById('id_latitude').value = e.latlng.lat;
+        document.getElementById('id_longitude').value = e.latlng.lng;
+    }
+
+    map.on('click', onMapClick)
+</script>
+
+{% endblock script %}

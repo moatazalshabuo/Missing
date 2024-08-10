@@ -45,6 +45,12 @@ class CustomUserCreationForm(UserCreationForm):
             UserProfile.objects.create(user=user, latitude=self.cleaned_data['latitude'], longitude=self.cleaned_data['longitude'])
         return user
     
+class Photo_Profile(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ['photo']
+    
+
 class FoundPersonDetailsForm(forms.ModelForm):
     class Meta:
         model = FoundPersonDetails

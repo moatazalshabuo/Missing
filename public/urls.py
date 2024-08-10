@@ -32,5 +32,9 @@ urlpatterns = [
     path('filter_data_by_region_and_date', filter_data_by_region_and_date, name='filter_data_by_region_and_date'),
     path('search/', search_missing_persons, name='search_missing_persons'),
     path('delete/<int:id>',delete_person,name='delete.person'),
-    path('api/check_messing',check_data_missing,name='check.missing')
+    path('api/check_messing',check_data_missing,name='check.missing'),
+    path('volunteers/create',public_Volunteers,name='volunteers.create'),
+    path('volunteers/',public_volun_index,name='volunteers.index'),
+    path('dash/volunteers/', volunteers_list, name='volunteers_list'),
+    path('about',about,name='about')
 ]
