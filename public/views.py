@@ -229,7 +229,7 @@ def approve_person(request, person_id):
     search_radius = ((current_time - val.last_seen_date).seconds // 3600 + 1) * 2  # زيادة 2 كم كل ساعة
     point1 = (val.lat, val.lng)
     for user in User.objects.filter(is_staff=False):
-      
+      print("kkkkk",search_radius)
       if not sendingEmail.objects.filter(user=user,person=val).exists():
         point2 = (user.profile.latitude,user.profile.longitude)
         distance = great_circle(point1, point2).kilometers
@@ -299,7 +299,7 @@ def approve_person(request, person_id):
             html += f'''<div class="container">
                                     <div class="profile">
                                         
-                                            <img src="{val.photo.url}" alt="صورة حديثة">
+                                            <img src="https://missing.desert-technology.com.ly/{val.photo.url}" alt="صورة حديثة">
                                         
                                         <div class="profile-details">
                                             <h2>{val.first_name} {val.last_name}</h2>
@@ -311,15 +311,13 @@ def approve_person(request, person_id):
                             </body>
                             </html>'''
             send_mail(
-                   'تنبيه بمفقود',
-                   '',
+                  'تنبيه بمفقود',
+                  '',
                     'info@missing.desert-technology.com.ly',
                     [user.email],
                     html_message=html
                 )
-                # إنشاء سجل إرسال البريد الإلكتروني
-
-                # إنشاء سجل إرسال البريد الإلكتروني
+            sendingEmail.objects.create(person=val,user=user)
 
     person.save()
     return redirect('/dash/missing_persons/wait')
